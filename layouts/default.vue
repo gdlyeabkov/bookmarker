@@ -15,7 +15,7 @@
       <v-btn class="text-capitalize mx-2" color="transparent" elevation="0">Мои группы</v-btn>
       <v-btn class="text-capitalize mx-2" color="transparent" elevation="0">Инструменты</v-btn>
       <v-spacer />
-      <v-btn class="text-capitalize mx-4" color="orange" rounded="true">Улучшить</v-btn>
+      <v-btn class="text-capitalize mx-4" color="orange" :rounded="true">Улучшить</v-btn>
       <v-avatar color="info" size="24">
         <v-img src="https://resources.diigo.com/images/avatar/user/nickfish2020_96.jpg?rand=863" />
       </v-avatar>
