@@ -22,6 +22,25 @@
       <v-btn class="text-capitalize" color="transparent" elevation="0">аккаунт</v-btn>
       <v-btn icon>
         <v-icon>mdi-chevron-down</v-icon>
+        <v-menu activator="parent">
+          <v-list>
+            <v-list-item>
+              <v-list-item-title>item.title</v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title>item.title</v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title>item.title</v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title>item.title</v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title>item.title</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </v-btn>
     </v-app-bar>
     <v-main>
