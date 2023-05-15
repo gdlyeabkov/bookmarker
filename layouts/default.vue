@@ -10,16 +10,16 @@
          src="https://www.diigo.com/asset/images/logo_s2@2x.png"
          width="75" />
       </v-app-bar-title>
-      <v-btn class="text-capitalize mx-2" color="transparent" elevation="0">My Library</v-btn>
-      <v-btn class="text-capitalize mx-2" color="transparent" elevation="0">My Outliners</v-btn>
-      <v-btn class="text-capitalize mx-2" color="transparent" elevation="0">My Groups</v-btn>
-      <v-btn class="text-capitalize mx-2" color="transparent" elevation="0">Tools</v-btn>
+      <v-btn class="text-capitalize mx-2" color="transparent" elevation="0">Моя библиотека</v-btn>
+      <v-btn class="text-capitalize mx-2" color="transparent" elevation="0">Мои структуры</v-btn>
+      <v-btn class="text-capitalize mx-2" color="transparent" elevation="0">Мои группы</v-btn>
+      <v-btn class="text-capitalize mx-2" color="transparent" elevation="0">Инструменты</v-btn>
       <v-spacer />
-      <v-btn class="text-capitalize mx-4" color="orange">Upgrade</v-btn>
+      <v-btn class="text-capitalize mx-4" color="orange" rounded="10">Улучшить</v-btn>
       <v-avatar color="info" size="24">
         <v-img src="https://resources.diigo.com/images/avatar/user/nickfish2020_96.jpg?rand=863" />
       </v-avatar>
-      <v-btn class="text-capitalize" color="transparent" elevation="0">account</v-btn>
+      <v-btn class="text-capitalize" color="transparent" elevation="0">аккаунт</v-btn>
       <v-btn icon>
         <v-icon>mdi-chevron-down</v-icon>
       </v-btn>
@@ -40,28 +40,28 @@
           elevation="0"
           variant="text"
           class="black--text text-capitalize mx-2">
-          <span>About</span>
+          <span>О нас</span>
         </v-btn>
         <v-btn
           color="transparent"
           elevation="0"
           variant="text"
           class="black--text text-capitalize mx-2">
-          <span>Terms of Service</span>
+          <span>Условия использования</span>
         </v-btn>
         <v-btn
           color="transparent"
           elevation="0"
           variant="text"
           class="black--text text-capitalize mx-2">
-          <span>Privacy Policy</span>
+          <span>Политика конфиденциальности</span>
         </v-btn>
         <v-btn
           color="transparent"
           elevation="0"
           variant="text"
           class="black--text text-capitalize mx-2">
-          <span>Blog</span>
+          <span>Блог</span>
         </v-btn>
         <v-btn
           color="transparent"
@@ -75,7 +75,7 @@
           elevation="0"
           variant="text"
           class="black--text text-capitalize mx-2">
-          <span>Contact Us</span>
+          <span>Связаться с нами</span>
         </v-btn>
       </v-row>
     </v-footer>
