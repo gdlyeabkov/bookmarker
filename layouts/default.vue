@@ -10,10 +10,10 @@
          src="https://www.diigo.com/asset/images/logo_s2@2x.png"
          width="75" />
       </v-app-bar-title>
-      <v-btn class="text-capitalize mx-2" color="transparent" elevation="0">Моя библиотека</v-btn>
-      <v-btn class="text-capitalize mx-2" color="transparent" elevation="0">Мои структуры</v-btn>
-      <v-btn class="text-capitalize mx-2" color="transparent" elevation="0">Мои группы</v-btn>
-      <v-btn class="text-capitalize mx-2" color="transparent" elevation="0">Инструменты</v-btn>
+      <v-btn class="text-capitalize mx-2" color="transparent" elevation="0" @click="switchScreen('library')">Моя библиотека</v-btn>
+      <v-btn class="text-capitalize mx-2" color="transparent" elevation="0" @click="switchScreen('outliners')">Мои структуры</v-btn>
+      <v-btn class="text-capitalize mx-2" color="transparent" elevation="0" @click="switchScreen('groups')">Мои группы</v-btn>
+      <v-btn class="text-capitalize mx-2" color="transparent" elevation="0" @click="switchScreen('tools')">Инструменты</v-btn>
       <v-spacer />
       <v-btn class="text-capitalize mx-4" color="orange" :rounded="true">Улучшить</v-btn>
       <v-avatar color="info" size="24">
@@ -44,7 +44,7 @@
       </v-btn>
     </v-app-bar>
     <v-main>
-      <v-container>
+      <v-container fluid class="full-w non-pad">
         <Nuxt />
       </v-container>
     </v-main>
@@ -111,6 +111,20 @@ export default {
       right: true,
       rightDrawer: false
     }
+  },
+  methods: {
+    switchScreen (screen) {
+      this.$router.push(screen)
+    }
   }
 }
 </script>
+<style scoped>
+  .full-w {
+    width: 100%;
+  }
+
+  .non-pad {
+   padding: 0px;
+  }
+</style>
