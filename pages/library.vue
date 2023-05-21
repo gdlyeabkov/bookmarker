@@ -9,7 +9,7 @@
         <v-btn class="text-capitalize mx-2" color="transparent" elevation="0">Моя библиотека</v-btn>
       </v-toolbar-title>
       <v-col cols="2">
-        <v-text-field dense prepend-icon="mdi-magnify" append-icon="mdi-menu-down" placeholder="Поиск">
+        <v-text-field dense prepend-icon="mdi-magnify" append-icon="mdi-menu-down" placeholder="Поиск...">
         </v-text-field>
       </v-col>
       <v-spacer />
@@ -41,6 +41,28 @@
       </v-list>
       </v-menu>
     </v-toolbar>
+    <v-row>
+      <v-col cols="4">
+        <v-row>
+          <v-col>
+            <v-icon class="mx-3">mdi-cube-outline</v-icon>
+            <span>Все</span>
+          </v-col>
+          <!-- <v-col>
+            <span>Все</span>
+          </v-col> -->
+          <v-col>
+            <v-icon>mdi-menu-down</v-icon>
+          </v-col>
+        </v-row>
+        <v-row></v-row>
+        <v-row></v-row>
+        <v-row></v-row>
+        <v-row></v-row>
+        <v-row></v-row>
+      </v-col>
+      <v-col cols="8"></v-col>
+    </v-row>
   </div>
 </template>
 
