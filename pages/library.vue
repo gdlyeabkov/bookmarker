@@ -48,18 +48,45 @@
             <v-icon class="mx-3">mdi-cube-outline</v-icon>
             <span>Все</span>
           </v-col>
-          <!-- <v-col>
-            <span>Все</span>
-          </v-col> -->
           <v-col>
             <v-icon>mdi-menu-down</v-icon>
           </v-col>
         </v-row>
-        <v-row></v-row>
-        <v-row></v-row>
-        <v-row></v-row>
-        <v-row></v-row>
-        <v-row></v-row>
+        <v-row>
+          <v-col>
+            <v-icon class="mx-3">mdi-border-color</v-icon>
+            <span>Аннотации</span>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-icon class="mx-3">mdi-circle</v-icon>
+            <span>Непрочитанное</span>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <span>Еще</span>
+            <v-icon>mdi-menu-down</v-icon>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <span>Теги</span>
+          </v-col>
+          <v-col>
+            <span>Топ</span>
+            <v-icon>mdi-menu-down</v-icon>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <span>Все теги</span>
+          </v-col>
+          <v-col>
+            <span>Топ 300</span>
+          </v-col>
+        </v-row>
       </v-col>
       <v-col cols="8"></v-col>
     </v-row>
