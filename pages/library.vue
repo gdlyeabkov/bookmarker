@@ -154,10 +154,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
 export default {
-  data () {
+  setup () {
+    const fab = ref(false)
     return {
-      fab: false
+      fab
     }
   }
 }
