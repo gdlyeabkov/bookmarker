@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar
-      :clipped-left="clipped"
+      elevation="0"
       fixed
       app
       color="cyan">
@@ -20,28 +20,36 @@
         <v-img src="https://resources.diigo.com/images/avatar/user/nickfish2020_96.jpg?rand=863" />
       </v-avatar>
       <v-btn class="text-capitalize" color="transparent" elevation="0">аккаунт</v-btn>
-      <v-btn icon>
-        <v-icon>mdi-chevron-down</v-icon>
-        <v-menu activator="parent">
-          <v-list>
-            <v-list-item>
-              <v-list-item-title>item.title</v-list-item-title>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-title>item.title</v-list-item-title>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-title>item.title</v-list-item-title>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-title>item.title</v-list-item-title>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-title>item.title</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </v-btn>
+      <v-menu>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            icon
+            v-bind="attrs"
+            v-on="on">
+            <v-icon>mdi-chevron-down</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item class="clickable" @click="switchScreen('profile')">
+            <v-list-item-title>Публичная библиотека</v-list-item-title>
+          </v-list-item>
+          <v-list-item class="clickable" @click="switchScreen('settings')">
+            <v-list-item-title>Настройки</v-list-item-title>
+          </v-list-item>
+          <v-list-item class="clickable" @click="switchScreen('support')">
+            <v-list-item-title>Поддержка</v-list-item-title>
+          </v-list-item>
+          <v-list-item class="clickable" @click="switchScreen('discover')">
+            <v-list-item-title>Обнаружить</v-list-item-title>
+          </v-list-item>
+          <v-list-item class="clickable" @click="switchScreen('help')">
+            <v-list-item-title>Помощь</v-list-item-title>
+          </v-list-item>
+          <v-list-item class="clickable" @click="logout()">
+            <v-list-item-title>Выйти</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
     <v-main>
       <v-container fluid class="full-w non-pad">
@@ -50,7 +58,6 @@
     </v-main>
     <v-footer
       color="rgb(245, 245, 245)"
-      :absolute="!fixed"
       app>
       <v-row justify="center" no-gutters>
         <span class="black--text ">&copy; {{ new Date().getFullYear() }} Diigo Inc.</span>
@@ -103,18 +110,12 @@
 
 <script>
 export default {
-  data () {
-    return {
-      clipped: false,
-      fixed: false,
-      miniVariant: false,
-      right: true,
-      rightDrawer: false
-    }
-  },
   methods: {
     switchScreen (screen) {
       this.$router.push(screen)
+    },
+    logout () {
+      this.switchScreen('start')
     }
   }
 }
@@ -126,5 +127,9 @@ export default {
 
   .non-pad {
    padding: 0px;
+  }
+
+  .clickable {
+    cursor: pointer;
   }
 </style>
