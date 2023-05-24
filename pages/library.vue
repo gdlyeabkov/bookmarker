@@ -15,31 +15,91 @@
       <v-spacer />
       <v-btn class="text-capitalize mx-4" color="transparent" elevation="0">Collapse All</v-btn>
       <v-btn class="text-capitalize mx-4" color="transparent" elevation="0">Bulk Edit</v-btn>
-      <v-menu transition="fab-transition">
-        <template v-slot:activator="{ props }">
+      <v-speed-dial
+        v-model="fab"
+        :top="true"
+        :right="false"
+        :bottom="false"
+        :left="false"
+        direction="bottom"
+        transition="scale"
+      >
+        <template v-slot:activator>
           <v-btn
-            class="text-capitalize mx-4 mt-8"
-            color="blue"
-            rounded
-            width="50"
-            min-width="50"
-            max-width="50"
-            height="50"
-            min-height="50"
-            max-height="50"
-            v-bind="props">
-            <v-icon>mdi-plus</v-icon>
+            v-model="fab"
+            :color="`${fab ? 'red' : 'blue'} darken-2`"
+            dark
+            fab
+          >
+            <v-icon v-if="fab">
+              mdi-close
+            </v-icon>
+            <v-icon v-else>
+              mdi-plus
+            </v-icon>
           </v-btn>
         </template>
-        <v-list>
-        <v-list-item
-          v-for="n in 5"
-          :key="n"
-        >
-          <v-list-item-title>{{`Item ${n}`}}</v-list-item-title>
-        </v-list-item>
-      </v-list>
-      </v-menu>
+        <v-tooltip left>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              fab
+              dark
+              small
+              color="blue"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon>mdi-bookmark</v-icon>
+            </v-btn>
+          </template>
+          <span>Закладка</span>
+        </v-tooltip>
+        <v-tooltip left>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              fab
+              dark
+              small
+              color="pink"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon>mdi-file-image</v-icon>
+            </v-btn>
+          </template>
+          <span>Фото</span>
+        </v-tooltip>
+        <v-tooltip left>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              fab
+              dark
+              small
+              color="red"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon>mdi-file-pdf-box</v-icon>
+            </v-btn>
+          </template>
+          <span>PDF</span>
+        </v-tooltip>
+        <v-tooltip left>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              fab
+              dark
+              small
+              color="green"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon>mdi-clipboard-text</v-icon>
+            </v-btn>
+          </template>
+          <span>Запись</span>
+        </v-tooltip>
+      </v-speed-dial>
     </v-toolbar>
     <v-row>
       <v-col cols="4">
@@ -95,7 +155,11 @@
 
 <script>
 export default {
-
+  data () {
+    return {
+      fab: false
+    }
+  }
 }
 </script>
 
