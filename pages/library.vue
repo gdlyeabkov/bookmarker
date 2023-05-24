@@ -148,7 +148,18 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="8"></v-col>
+      <v-col cols="8">
+        <div
+          v-if="isLoading"
+          class="ma-5 text-center">
+          <v-progress-circular
+            indeterminate
+            color="primary"
+            size="72"
+          />
+        </div>
+        <div v-else></div>
+      </v-col>
     </v-row>
   </div>
 </template>
@@ -158,8 +169,10 @@ import { ref } from 'vue'
 export default {
   setup () {
     const fab = ref(false)
+    const isLoading = ref(true)
     return {
-      fab
+      fab,
+      isLoading
     }
   }
 }
