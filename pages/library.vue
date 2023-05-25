@@ -48,6 +48,7 @@
               color="blue"
               v-bind="attrs"
               v-on="on"
+              @click="addBookmark"
             >
               <v-icon>mdi-bookmark</v-icon>
             </v-btn>
@@ -161,6 +162,31 @@
         <div v-else></div>
       </v-col>
     </v-row>
+    <v-dialog
+      v-model="dialog"
+      width="50%">
+      <v-card>
+        <v-toolbar
+          color="primary">
+          <v-toolbar-title>
+            <p class="text-capitalize mx-2">Закладка</p>
+          </v-toolbar-title>
+          <v-spacer />
+          <v-icon @click="closeAlert">
+            mdi-close
+          </v-icon>
+        </v-toolbar>
+        <v-card-text>
+          <v-text-field placeholder="URL" />
+        </v-card-text>
+        <v-card-actions class="justify-end">
+          <v-btn
+            variant="text"
+            @click="closeAlert"
+          >Далее</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -170,9 +196,19 @@ export default {
   setup () {
     const fab = ref(false)
     const isLoading = ref(true)
+    const dialog = ref(false)
     return {
       fab,
-      isLoading
+      isLoading,
+      dialog
+    }
+  },
+  methods: {
+    addBookmark () {
+      this.dialog = true
+    },
+    closeAlert () {
+      this.dialog = false
     }
   }
 }
