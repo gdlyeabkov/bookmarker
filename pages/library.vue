@@ -159,7 +159,22 @@
             size="72"
           />
         </div>
-        <div v-else></div>
+        <div v-else>
+          <div v-if="articles.length">
+            <div
+              v-for="article in articles"
+              :key="article">
+              <p>{{article}}</p>
+            </div>
+          </div>
+          <div
+            v-else
+            class="ma-5 text-center">
+            <img src="https://www.diigo.com/asset/images/noitem_cartoon.png" alt="Не найдено" />
+            <p>Статей нет!</p>
+            <p>Вы можее добавить ее сами.</p>
+          </div>
+        </div>
       </v-col>
     </v-row>
     <v-dialog
@@ -197,11 +212,16 @@ export default {
     const fab = ref(false)
     const isLoading = ref(true)
     const dialog = ref(false)
+    const articles = ref([])
     return {
       fab,
       isLoading,
-      dialog
+      dialog,
+      articles
     }
+  },
+  mounted () {
+    this.getArticleContent()
   },
   methods: {
     addBookmark () {
@@ -209,6 +229,12 @@ export default {
     },
     closeAlert () {
       this.dialog = false
+    },
+    getArticleContent () {
+      setTimeout(() => {
+        this.articles = []
+        this.isLoading = false
+      }, 3000)
     }
   }
 }
