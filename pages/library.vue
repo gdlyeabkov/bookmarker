@@ -193,12 +193,21 @@
         </v-toolbar>
         <v-card-text>
           <v-text-field placeholder="URL" />
+          <div v-if="bookmarkAlertStep === 2">
+            <v-text-field placeholder="Название" />
+            <v-text-field placeholder="Описание" />
+            <v-text-field placeholder="Тэги" />
+            <v-text-field placeholder="Поделиться в иерархии" />
+            <v-text-field placeholder="Поделиться в группе" />
+            <v-text-field placeholder="Приватный" />
+            <v-text-field placeholder="Читать позже" />
+          </div>
         </v-card-text>
         <v-card-actions class="justify-end">
           <v-btn
             variant="text"
-            @click="closeAlert"
-          >Далее</v-btn>
+            @click="next"
+          >{{bookmarkAlertNextBtnText}}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -213,11 +222,15 @@ export default {
     const isLoading = ref(true)
     const dialog = ref(false)
     const articles = ref([])
+    const bookmarkAlertNextBtnText = ref('Далее')
+    const bookmarkAlertStep = ref(1)
     return {
       fab,
       isLoading,
       dialog,
-      articles
+      articles,
+      bookmarkAlertNextBtnText,
+      bookmarkAlertStep
     }
   },
   mounted () {
@@ -235,6 +248,16 @@ export default {
         this.articles = []
         this.isLoading = false
       }, 3000)
+    },
+    next () {
+      if (this.bookmarkAlertStep === 1) {
+        this.bookmarkAlertNextBtnText = 'Добавить'
+        this.bookmarkAlertStep = 2
+      } else if (this.bookmarkAlertStep === 2) {
+        this.bookmarkAlertNextBtnText = 'Далее'
+        this.bookmarkAlertStep = 1
+        this.closeAlert()
+      }
     }
   }
 }
