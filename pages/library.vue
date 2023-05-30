@@ -14,7 +14,39 @@
       </v-col>
       <v-spacer />
       <v-btn class="text-capitalize mx-4" color="transparent" elevation="0">Collapse All</v-btn>
-      <v-btn class="text-capitalize mx-4" color="transparent" elevation="0">Bulk Edit</v-btn>
+      <v-bottom-sheet v-model="sheet">
+        <template v-slot:activator="{ attrs, on }">
+          <v-btn
+            class="text-capitalize mx-4"
+            color="transparent"
+            elevation="0"
+            v-bind="attrs"
+            v-on="on">Bulk Edit</v-btn>
+        </template>
+        <v-card
+          title="Bottom Sheet"
+          text="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut, eos? Nulla aspernatur odio rem, culpa voluptatibus eius debitis dolorem perspiciatis asperiores sed consectetur praesentium! Delectus et iure maxime eaque exercitationem!"
+        >
+          <v-row>
+            <v-col
+              cols="5"
+              class="ma-5">
+              <span class="mx-2">Select all</span>
+              <span class="mx-2">0 item selected</span>
+              <span class="mx-2">Click item to select</span>
+            </v-col>
+            <v-col
+              cols="5"
+              class="ma-5">
+              <v-btn @click="closeSheet">
+                <v-icon>
+                  mdi-close
+                </v-icon>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-bottom-sheet>
       <v-speed-dial
         v-model="fab"
         :top="true"
@@ -224,13 +256,15 @@ export default {
     const articles = ref([])
     const bookmarkAlertNextBtnText = ref('Далее')
     const bookmarkAlertStep = ref(1)
+    const sheet = ref(false)
     return {
       fab,
       isLoading,
       dialog,
       articles,
       bookmarkAlertNextBtnText,
-      bookmarkAlertStep
+      bookmarkAlertStep,
+      sheet
     }
   },
   mounted () {
@@ -258,6 +292,9 @@ export default {
         this.bookmarkAlertStep = 1
         this.closeAlert()
       }
+    },
+    closeSheet () {
+      this.sheet = !this.sheet
     }
   }
 }
