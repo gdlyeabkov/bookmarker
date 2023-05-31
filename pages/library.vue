@@ -195,8 +195,81 @@
           <div v-if="articles.length">
             <div
               v-for="article in articles"
-              :key="article">
-              <p>{{article}}</p>
+              :key="article"
+              class="ma-5">
+              <v-row>
+                <v-col cols="8">
+                  <v-row>
+                    <v-col cols="2">
+                      <p>{{article.title}}</p>
+                    </v-col>
+                    <v-col cols="2">
+                      <v-icon>mdi-circle</v-icon>
+                      <v-hover
+                        v-slot="{ isHovering, props }">
+                          <v-icon
+                            v-bind="props"
+                            :class="{'d-none': isHovering}">mdi-grease-pencil</v-icon>
+                      </v-hover>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="3">
+                      <a :href="article.url">{{article.url}}</a>
+                    </v-col>
+                    <v-col
+                      cols="2"
+                      v-for="(tag, index) in article.tags"
+                      :key="index">
+                      <v-chip
+                        label>{{tag}}</v-chip>
+                    </v-col>
+                  </v-row>
+                </v-col>
+                <v-col cols="4">
+                  <v-row>
+                    <v-col cols="6">
+                      <p>May 14, 2023</p>
+                    </v-col>
+                    <v-col cols="6">
+                      <v-menu>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            icon
+                            v-bind="attrs"
+                            v-on="on">
+                            <v-icon>mdi-dots-vertical</v-icon>
+                          </v-btn>
+                        </template>
+                        <v-list>
+                          <v-list-item class="clickable" @click="edit(article)">
+                            <v-list-item-title>Редактировать</v-list-item-title>
+                          </v-list-item>
+                          <v-list-item class="clickable" @click="remove(article)">
+                            <v-list-item-title>Удалить</v-list-item-title>
+                          </v-list-item>
+                          <v-list-item class="clickable" @click="getLink(article)">
+                            <v-list-item-title>Получить общедоступную ссылку</v-list-item-title>
+                          </v-list-item>
+                          <v-list-item class="clickable" @click="sendEmail(article)">
+                            <v-list-item-title>Отправить E-mail</v-list-item-title>
+                          </v-list-item>
+                          <v-list-item class="clickable" @click="markAsUnread(article)">
+                            <v-list-item-title>Отметить как непрочитанное</v-list-item-title>
+                          </v-list-item>
+                          <v-list-item class="clickable" @click="addInOutliner(article)">
+                            <v-list-item-title>Добавить в структуру</v-list-item-title>
+                          </v-list-item>
+                          <v-list-item class="clickable" @click="shareGroup(article)">
+                            <v-list-item-title>Поделиться в группе</v-list-item-title>
+                          </v-list-item>
+                        </v-list>
+                      </v-menu>
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+              <v-divider class="ma-2" />
             </div>
           </div>
           <div
@@ -279,7 +352,18 @@ export default {
     },
     getArticleContent () {
       setTimeout(() => {
-        this.articles = []
+        // this.articles = []
+        this.articles = [
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          }
+        ]
         this.isLoading = false
       }, 3000)
     },
@@ -292,6 +376,27 @@ export default {
         this.bookmarkAlertStep = 1
         this.closeAlert()
       }
+    },
+    edit (article) {
+
+    },
+    remove (article) {
+
+    },
+    getLink (article) {
+
+    },
+    sendEmail (article) {
+
+    },
+    markAsUnread (article) {
+
+    },
+    addInOutliner (article) {
+
+    },
+    shareGroup (article) {
+
     },
     closeSheet () {
       this.sheet = !this.sheet
