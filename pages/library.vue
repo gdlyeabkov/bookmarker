@@ -271,6 +271,9 @@
               </v-row>
               <v-divider class="ma-2" />
             </div>
+            <v-pagination
+              :length="getPageCount()"
+              rounded />
           </div>
           <div
             v-else
@@ -344,6 +347,11 @@ export default {
     this.getArticleContent()
   },
   methods: {
+    getPageCount () {
+      const articlesCount = this.articles.length
+      const pages = Math.ceil(articlesCount / 10)
+      return pages
+    },
     addBookmark () {
       this.dialog = true
     },
