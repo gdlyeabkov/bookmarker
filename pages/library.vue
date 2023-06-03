@@ -194,7 +194,7 @@
         <div v-else>
           <div v-if="articles.length">
             <div
-              v-for="article in articles"
+              v-for="article in getArticlesForPage(page)"
               :key="article"
               class="ma-5">
               <v-row>
@@ -271,9 +271,86 @@
               </v-row>
               <v-divider class="ma-2" />
             </div>
-            <v-pagination
-              :length="getPageCount()"
-              rounded />
+            <v-row>
+              <v-col cols="3">
+                <v-row class="my-4">
+                  <p class="mx-2 my-1">{{articles.length}} элемента,</p>
+                  <v-menu>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                        class="mx-2"
+                        icon
+                        v-bind="attrs"
+                        v-on="on">{{itemsPerPage}}</v-btn>
+                    </template>
+                    <v-list>
+                      <v-list-item class="clickable" @click="setItemPerPage(24)">
+                        <v-list-item-title>24</v-list-item-title>
+                      </v-list-item>
+                      <v-list-item class="clickable" @click="setItemPerPage(48)">
+                        <v-list-item-title>48</v-list-item-title>
+                      </v-list-item>
+                      <v-list-item class="clickable" @click="setItemPerPage(96)">
+                        <v-list-item-title>96</v-list-item-title>
+                      </v-list-item>
+                    </v-list>
+                  </v-menu>
+                  <p class="mx-2 my-1">эл/стр</p>
+                </v-row>
+              </v-col>
+              <v-col cols="6">
+                <v-pagination
+                v-model="page"
+                :length="getPageCount()"
+                rounded />
+              </v-col>
+              <v-col cols="3">
+                <v-row class="my-4">
+                  <v-col cols="5">
+                    <v-menu>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          icon
+                          v-bind="attrs"
+                          v-on="on">{{visibility}}</v-btn>
+                      </template>
+                      <v-list>
+                        <v-list-item class="clickable" @click="setVisibility('Фильтр')">
+                          <v-list-item-title>Фильтр</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item class="clickable" @click="setVisibility('Публичные')">
+                          <v-list-item-title>Публичные</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item class="clickable" @click="setVisibility('Приватные')">
+                          <v-list-item-title>Приватные</v-list-item-title>
+                        </v-list-item>
+                      </v-list>
+                    </v-menu>
+                  </v-col>
+                  <v-col cols="5">
+                    <v-menu>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          icon
+                          v-bind="attrs"
+                          v-on="on">{{date}}</v-btn>
+                      </template>
+                      <v-list>
+                        <v-list-item class="clickable" @click="setDate('Дата создания')">
+                          <v-list-item-title>Дата создания</v-list-item-title>
+                        </v-list-item>
+                        <v-list-item class="clickable" @click="setDate('Дата обновления')">
+                          <v-list-item-title>Дата обновления</v-list-item-title>
+                        </v-list-item>
+                      </v-list>
+                    </v-menu>
+                  </v-col>
+                  <v-col cols="2">
+                    <v-icon class="my-1" color="orange">mdi-rss-box</v-icon>
+                  </v-col>
+                </v-row>
+              </v-col>
+            </v-row>
           </div>
           <div
             v-else
@@ -333,6 +410,10 @@ export default {
     const bookmarkAlertNextBtnText = ref('Далее')
     const bookmarkAlertStep = ref(1)
     const sheet = ref(false)
+    const itemsPerPage = ref(24)
+    const page = ref(1)
+    const visibility = ref('Фильтр')
+    const date = ref('Дата создания')
     return {
       fab,
       isLoading,
@@ -340,7 +421,11 @@ export default {
       articles,
       bookmarkAlertNextBtnText,
       bookmarkAlertStep,
-      sheet
+      sheet,
+      itemsPerPage,
+      page,
+      visibility,
+      date
     }
   },
   mounted () {
@@ -349,7 +434,7 @@ export default {
   methods: {
     getPageCount () {
       const articlesCount = this.articles.length
-      const pages = Math.ceil(articlesCount / 10)
+      const pages = Math.ceil(articlesCount / this.itemsPerPage)
       return pages
     },
     addBookmark () {
@@ -362,6 +447,438 @@ export default {
       setTimeout(() => {
         // this.articles = []
         this.articles = [
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [
+              'youtube',
+              'hosting',
+              'video'
+            ]
+          },
           {
             title: 'youtube',
             url: 'https://youtube.com',
@@ -408,6 +925,21 @@ export default {
     },
     closeSheet () {
       this.sheet = !this.sheet
+    },
+    setItemPerPage (count) {
+      this.itemsPerPage = count
+    },
+    getArticlesForPage (page) {
+      return this.articles.filter((article, articleIdx) => {
+        const aritcleNum = articleIdx + 1
+        return articleIdx < page * this.itemsPerPage && aritcleNum > page * this.itemsPerPage - this.itemsPerPage
+      })
+    },
+    setVisibility (val) {
+      this.visibility = val
+    },
+    setDate (val) {
+      this.date = val
     }
   }
 }
