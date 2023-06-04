@@ -1,7 +1,8 @@
 <template>
   <v-footer
     color="rgb(245, 245, 245)"
-    app>
+    border
+    elevation>
     <v-row justify="center" no-gutters>
       <span class="grey--text my-2">&copy; {{ new Date().getFullYear() }} Diigo Inc.</span>
       <v-btn

@@ -14,39 +14,11 @@
       </v-col>
       <v-spacer />
       <v-btn class="text-capitalize mx-4" color="transparent" elevation="0">Collapse All</v-btn>
-      <v-bottom-sheet v-model="sheet">
-        <template v-slot:activator="{ attrs, on }">
-          <v-btn
-            class="text-capitalize mx-4"
-            color="transparent"
-            elevation="0"
-            v-bind="attrs"
-            v-on="on">Bulk Edit</v-btn>
-        </template>
-        <v-card
-          title="Bottom Sheet"
-          text="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut, eos? Nulla aspernatur odio rem, culpa voluptatibus eius debitis dolorem perspiciatis asperiores sed consectetur praesentium! Delectus et iure maxime eaque exercitationem!"
-        >
-          <v-row>
-            <v-col
-              cols="5"
-              class="ma-5">
-              <span class="mx-2">Select all</span>
-              <span class="mx-2">0 item selected</span>
-              <span class="mx-2">Click item to select</span>
-            </v-col>
-            <v-col
-              cols="5"
-              class="ma-5">
-              <v-btn @click="closeSheet">
-                <v-icon>
-                  mdi-close
-                </v-icon>
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-card>
-      </v-bottom-sheet>
+      <v-btn
+        class="text-capitalize mx-4"
+        color="transparent"
+        elevation="0"
+        @click="sheet = !sheet">{{sheet ? 'Quick Edit' : 'Bulk Edit'}}</v-btn>
       <v-speed-dial
         v-model="fab"
         :top="true"
@@ -194,9 +166,16 @@
         <div v-else>
           <div v-if="articles.length">
             <div
-              v-for="article in getArticlesForPage(page)"
+              v-for="(article, articleIdx) in getArticlesForPage(page)"
               :key="article"
-              class="ma-5">
+              @click="toggleArticleSelection(articleIdx)"
+              :class="{'ma-5': true, 'clickable': sheet, 'pa-5': true}"
+              :style="sheet && selectedArticles[articleIdx] ?
+                  {
+                    background: 'rgba(200, 230, 255, 255)'
+                  }
+                :
+                  ''">
               <v-row>
                 <v-col cols="8">
                   <v-row>
@@ -396,6 +375,38 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-slide-y-transition class="w-100">
+      <v-footer
+        class="w-100"
+        v-show="sheet"
+        elevation="2"
+        color="rgb(255, 255, 255)"
+        app>
+        <v-row
+          class="w-100">
+          <v-col
+            cols="6"
+            class="ma-5">
+            <v-btn
+              class="text-capitalize mx-2"
+              color="transparent"
+              elevation="0"
+              @click="selectAll">Выбрать все</v-btn>
+            <span class="mx-2">{{selectedArticles.filter(item => item).length}} элементов выбрано</span>
+            <span class="mx-2">Щелкните на элемент чтобы выбрать</span>
+          </v-col>
+          <v-col
+            cols="2"
+            class="ma-5">
+            <v-btn @click="closeSheet">
+              <v-icon>
+                mdi-close
+              </v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-footer>
+    </v-slide-y-transition>
   </div>
 </template>
 
@@ -414,6 +425,7 @@ export default {
     const page = ref(1)
     const visibility = ref('Фильтр')
     const date = ref('Дата создания')
+    const selectedArticles = ref([])
     return {
       fab,
       isLoading,
@@ -425,13 +437,20 @@ export default {
       itemsPerPage,
       page,
       visibility,
-      date
+      date,
+      selectedArticles
     }
   },
   mounted () {
     this.getArticleContent()
   },
   methods: {
+    toggleArticleSelection (idx) {
+      if (this.sheet) {
+        this.selectedArticles[idx] = !this.selectedArticles[idx]
+        this.$forceUpdate()
+      }
+    },
     getPageCount () {
       const articlesCount = this.articles.length
       const pages = Math.ceil(articlesCount / this.itemsPerPage)
@@ -889,6 +908,9 @@ export default {
             ]
           }
         ]
+        for (let i = 0; i < this.articles.length; i++) {
+          this.selectedArticles.push(false)
+        }
         this.isLoading = false
       }, 3000)
     },
@@ -940,11 +962,16 @@ export default {
     },
     setDate (val) {
       this.date = val
+    },
+    selectAll () {
+      this.selectedArticles.fill(true)
+      this.$forceUpdate()
     }
   }
 }
 </script>
-
 <style>
-
+  .clickable {
+    cursor: pointer !important;
+  }
 </style>

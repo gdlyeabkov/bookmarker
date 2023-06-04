@@ -1,0 +1,11 @@
+.full-w {
+  width: 100%;
+}
+
+.non-pad {
+  padding: 0px;
+}
+
+.clickable {
+  cursor: pointer !important;
+}
