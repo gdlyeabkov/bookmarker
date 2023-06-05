@@ -13,7 +13,11 @@
         </v-text-field>
       </v-col>
       <v-spacer />
-      <v-btn class="text-capitalize mx-4" color="transparent" elevation="0">Collapse All</v-btn>
+      <v-btn
+        class="text-capitalize mx-4"
+        color="transparent"
+        elevation="0"
+        @click="toggleExpanders">{{articleExpanders[0] ? 'Сжать все' : 'Расширить все'}}</v-btn>
       <v-btn
         class="text-capitalize mx-4"
         color="transparent"
@@ -107,7 +111,9 @@
       </v-speed-dial>
     </v-toolbar>
     <v-row>
-      <v-col cols="4">
+      <v-col
+        cols="3"
+        class="ma-5">
         <v-row>
           <v-col>
             <v-icon class="mx-3">mdi-cube-outline</v-icon>
@@ -196,13 +202,27 @@
                     <v-col cols="3">
                       <a :href="article.url">{{article.url}}</a>
                     </v-col>
+                    <v-row
+                      class="ml-2"
+                      dense
+                      no-gutters
+                      v-if="article.tags.length">
+                      <v-col
+                        v-for="(tag, index) in article.tags"
+                        :key="index">
+                        <v-chip
+                          class="clickable"
+                          label>{{tag}}</v-chip>
+                      </v-col>
+                    </v-row>
                     <v-col
-                      cols="2"
-                      v-for="(tag, index) in article.tags"
-                      :key="index">
-                      <v-chip
-                        label>{{tag}}</v-chip>
-                    </v-col>
+                      v-else
+                      cols="2">
+                        <v-chip
+                          class="clickable"
+                          label
+                          @click="addTag">+ Тэг</v-chip>
+                      </v-col>
                   </v-row>
                 </v-col>
                 <v-col cols="4">
@@ -248,6 +268,9 @@
                   </v-row>
                 </v-col>
               </v-row>
+              <div v-if="articleExpanders[articleIdx]">
+                <div v-html="article.body" />
+              </div>
               <v-divider class="ma-2" />
             </div>
             <v-row>
@@ -426,6 +449,7 @@ export default {
     const visibility = ref('Фильтр')
     const date = ref('Дата создания')
     const selectedArticles = ref([])
+    const articleExpanders = ref([])
     return {
       fab,
       isLoading,
@@ -438,7 +462,8 @@ export default {
       page,
       visibility,
       date,
-      selectedArticles
+      selectedArticles,
+      articleExpanders
     }
   },
   mounted () {
@@ -469,11 +494,8 @@ export default {
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ]
+            tags: [],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -482,7 +504,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -491,7 +514,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -500,7 +524,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -509,7 +534,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -518,7 +544,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -527,7 +554,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -536,7 +564,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -545,7 +574,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -554,7 +584,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -563,7 +594,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -572,7 +604,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -581,7 +614,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -590,7 +624,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -599,7 +634,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -608,7 +644,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -617,7 +654,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -626,7 +664,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -635,7 +674,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -644,7 +684,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -653,7 +694,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -662,7 +704,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -671,7 +714,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -680,7 +724,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -689,7 +734,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -698,7 +744,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -707,7 +754,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -716,7 +764,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -725,7 +774,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -734,7 +784,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -743,7 +794,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -752,7 +804,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -761,7 +814,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -770,7 +824,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -779,7 +834,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -788,7 +844,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -797,7 +854,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -806,7 +864,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -815,7 +874,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -824,7 +884,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -833,7 +894,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -842,7 +904,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -851,7 +914,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -860,7 +924,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -869,7 +934,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -878,7 +944,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -887,7 +954,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -896,7 +964,8 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           },
           {
             title: 'youtube',
@@ -905,11 +974,13 @@ export default {
               'youtube',
               'hosting',
               'video'
-            ]
+            ],
+            body: 'hosting'
           }
         ]
         for (let i = 0; i < this.articles.length; i++) {
           this.selectedArticles.push(false)
+          this.articleExpanders.push(false)
         }
         this.isLoading = false
       }, 3000)
@@ -966,6 +1037,16 @@ export default {
     selectAll () {
       this.selectedArticles.fill(true)
       this.$forceUpdate()
+    },
+    addTag () {
+      alert('addTag')
+    },
+    toggleExpanders () {
+      if (this.articleExpanders.length) {
+        const articleExpanderVal = !this.articleExpanders[0]
+        this.articleExpanders.fill(articleExpanderVal)
+        this.$forceUpdate()
+      }
     }
   }
 }
