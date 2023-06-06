@@ -22,7 +22,7 @@
         class="text-capitalize mx-4"
         color="transparent"
         elevation="0"
-        @click="sheet = !sheet">{{sheet ? 'Quick Edit' : 'Bulk Edit'}}</v-btn>
+        @click="sheet = !sheet">{{sheet ? 'Быстрое редактирование' : 'Массовое редактирование'}}</v-btn>
       <v-speed-dial
         v-model="fab"
         :top="true"
