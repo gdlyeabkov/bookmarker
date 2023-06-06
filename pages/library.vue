@@ -416,7 +416,25 @@
               elevation="0"
               @click="selectAll">Выбрать все</v-btn>
             <span class="mx-2">{{selectedArticles.filter(item => item).length}} элементов выбрано</span>
-            <span class="mx-2">Щелкните на элемент чтобы выбрать</span>
+            <span
+              class="mx-2"
+              v-if="selectedArticles.filter(item => item).length <= 0">Щелкните на элемент чтобы выбрать</span>
+          </v-col>
+          <v-col
+            cols="4"
+            v-if="selectedArticles.filter(item => item).length > 0">
+            <v-row>
+              <v-btn>Организовать в структуре</v-btn>
+              <v-btn>Поделиться в группе</v-btn>
+              <v-btn>Отправить почту</v-btn>
+              <v-btn>Создать отчет</v-btn>
+              <v-btn>
+                <v-icon>mdi-dots-horizontal</v-icon>
+              </v-btn>
+              <v-btn>
+                <v-icon>mdi-trash-can-outline</v-icon>
+              </v-btn>
+            </v-row>
           </v-col>
           <v-col
             cols="2"
