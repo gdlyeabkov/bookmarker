@@ -379,15 +379,15 @@
           </v-icon>
         </v-toolbar>
         <v-card-text>
-          <v-text-field placeholder="URL" />
+          <v-text-field v-model="url" placeholder="URL" />
           <div v-if="bookmarkAlertStep === 2">
-            <v-text-field placeholder="Название" />
-            <v-text-field placeholder="Описание" />
-            <v-text-field placeholder="Тэги" />
-            <v-text-field placeholder="Поделиться в иерархии" />
-            <v-text-field placeholder="Поделиться в группе" />
-            <v-text-field placeholder="Приватный" />
-            <v-text-field placeholder="Читать позже" />
+            <v-text-field v-model="title" placeholder="Название" />
+            <v-text-field v-model="desc" placeholder="Описание" />
+            <v-text-field v-model="tags" placeholder="Тэги" />
+            <v-text-field v-model="shareToOutliner" placeholder="Поделиться в иерархии" />
+            <v-text-field v-model="shareToGroup" placeholder="Поделиться в группе" />
+            <v-text-field v-model="isPrivate" placeholder="Приватный" />
+            <v-text-field v-model="readLater" placeholder="Читать позже" />
           </div>
         </v-card-text>
         <v-card-actions class="justify-end">
@@ -408,7 +408,7 @@
         <v-row
           class="w-100">
           <v-col
-            cols="6"
+            cols="4"
             class="ma-5">
             <v-btn
               class="text-capitalize mx-2"
@@ -421,7 +421,7 @@
               v-if="selectedArticles.filter(item => item).length <= 0">Щелкните на элемент чтобы выбрать</span>
           </v-col>
           <v-col
-            cols="4"
+            cols="6"
             v-if="selectedArticles.filter(item => item).length > 0">
             <v-row>
               <v-btn>Организовать в структуре</v-btn>
@@ -437,7 +437,7 @@
             </v-row>
           </v-col>
           <v-col
-            cols="2"
+            cols="1"
             class="ma-5">
             <v-btn @click="closeSheet">
               <v-icon>
@@ -468,6 +468,14 @@ export default {
     const date = ref('Дата создания')
     const selectedArticles = ref([])
     const articleExpanders = ref([])
+    const url = ref('')
+    const title = ref('')
+    const desc = ref('')
+    const tags = ref('')
+    const shareToOutliner = ref('')
+    const shareToGroup = ref('')
+    const isPrivate = ref('')
+    const readLater = ref('')
     return {
       fab,
       isLoading,
@@ -481,7 +489,15 @@ export default {
       visibility,
       date,
       selectedArticles,
-      articleExpanders
+      articleExpanders,
+      url,
+      title,
+      desc,
+      tags,
+      shareToOutliner,
+      shareToGroup,
+      isPrivate,
+      readLater
     }
   },
   mounted () {
@@ -1008,9 +1024,25 @@ export default {
         this.bookmarkAlertNextBtnText = 'Добавить'
         this.bookmarkAlertStep = 2
       } else if (this.bookmarkAlertStep === 2) {
+        this.articles.push({
+          title: this.title,
+          url: this.url,
+          tags: [],
+          body: 'hosting'
+        })
+        this.selectedArticles.push(false)
+        this.articleExpanders.push(false)
+        this.closeAlert()
         this.bookmarkAlertNextBtnText = 'Далее'
         this.bookmarkAlertStep = 1
-        this.closeAlert()
+        this.url = ''
+        this.title = ''
+        this.isPrivate = ''
+        this.shareToGroup = ''
+        this.shareToOutliner = ''
+        this.tags = ''
+        this.desc = ''
+        this.readLater = ''
       }
     },
     edit (article) {
