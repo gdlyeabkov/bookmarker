@@ -386,8 +386,8 @@
             <v-text-field v-model="tags" placeholder="Тэги" />
             <v-text-field v-model="shareToOutliner" placeholder="Поделиться в иерархии" />
             <v-text-field v-model="shareToGroup" placeholder="Поделиться в группе" />
-            <v-text-field v-model="isPrivate" placeholder="Приватный" />
-            <v-text-field v-model="readLater" placeholder="Читать позже" />
+            <v-checkbox v-model="isPrivate" placeholder="Приватный" />
+            <v-checkbox v-model="readLater" placeholder="Читать позже" />
           </div>
         </v-card-text>
         <v-card-actions class="justify-end">
@@ -395,6 +395,38 @@
             variant="text"
             @click="next"
           >{{bookmarkAlertNextBtnText}}</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog
+      v-model="editDialog"
+      width="50%">
+      <v-card>
+        <v-toolbar
+          color="primary">
+          <v-toolbar-title>
+            <p class="text-capitalize mx-2">Редактировать элемент</p>
+          </v-toolbar-title>
+          <v-spacer />
+          <v-icon @click="closeEditAlert">
+            mdi-close
+          </v-icon>
+        </v-toolbar>
+        <v-card-text>
+          <v-text-field v-model="title" placeholder="Название" />
+          <v-text-field v-model="url" placeholder="URL" />
+          <v-text-field v-model="desc" placeholder="Описание" />
+          <v-text-field v-model="tags" placeholder="Тэги" />
+          <v-text-field v-model="shareToOutliner" placeholder="Поделиться в иерархии" />
+          <v-text-field v-model="shareToGroup" placeholder="Поделиться в группе" />
+          <v-checkbox v-model="isPrivate" placeholder="Приватный" />
+          <v-checkbox v-model="readLater" placeholder="Читать позже" />
+        </v-card-text>
+        <v-card-actions class="justify-end">
+          <v-btn
+            variant="text"
+            @click="saveEdit"
+          >Сохранить</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -476,6 +508,7 @@ export default {
     const shareToGroup = ref('')
     const isPrivate = ref('')
     const readLater = ref('')
+    const editDialog = ref('')
     return {
       fab,
       isLoading,
@@ -497,7 +530,8 @@ export default {
       shareToOutliner,
       shareToGroup,
       isPrivate,
-      readLater
+      readLater,
+      editDialog
     }
   },
   mounted () {
@@ -520,6 +554,15 @@ export default {
     },
     closeAlert () {
       this.dialog = false
+    },
+    closeEditAlert () {
+      this.editDialog = false
+      this.title = ''
+      this.url = ''
+      this.desc = ''
+      this.tags = ''
+      this.isPrivate = false
+      this.readLater = false
     },
     getArticleContent () {
       setTimeout(() => {
@@ -1046,7 +1089,11 @@ export default {
       }
     },
     edit (article) {
-
+      this.title = article.title
+      this.url = article.url
+      this.desc = article.desc
+      this.tags = article.tags
+      this.editDialog = true
     },
     remove (index) {
       this.articles = this.articles.filter((article, idx) => idx !== index)
@@ -1098,6 +1145,9 @@ export default {
         this.articleExpanders.fill(articleExpanderVal)
         this.$forceUpdate()
       }
+    },
+    saveEdit () {
+      this.closeEditAlert()
     }
   }
 }
