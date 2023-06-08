@@ -244,7 +244,7 @@
                           <v-list-item class="clickable" @click="edit(article)">
                             <v-list-item-title>Редактировать</v-list-item-title>
                           </v-list-item>
-                          <v-list-item class="clickable" @click="remove(article)">
+                          <v-list-item class="clickable" @click="remove(articleIdx)">
                             <v-list-item-title>Удалить</v-list-item-title>
                           </v-list-item>
                           <v-list-item class="clickable" @click="getLink(article)">
@@ -1048,8 +1048,9 @@ export default {
     edit (article) {
 
     },
-    remove (article) {
-
+    remove (index) {
+      this.articles = this.articles.filter((article, idx) => idx !== index)
+      this.$forceUpdate()
     },
     getLink (article) {
 
