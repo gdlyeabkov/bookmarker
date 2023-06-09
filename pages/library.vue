@@ -185,6 +185,11 @@
               <v-row>
                 <v-col cols="8">
                   <v-row>
+                    <v-col
+                      v-if="article.isUnreaded"
+                      cols="1">
+                      <v-icon>mdi-circle-small</v-icon>
+                    </v-col>
                     <v-col cols="2">
                       <p>{{article.title}}</p>
                     </v-col>
@@ -254,7 +259,12 @@
                             <v-list-item-title>Отправить E-mail</v-list-item-title>
                           </v-list-item>
                           <v-list-item class="clickable" @click="markAsUnread(article)">
-                            <v-list-item-title>Отметить как непрочитанное</v-list-item-title>
+                            <v-list-item-title>{{
+                              article.isUnreaded ?
+                                'Отметить как прочитанное'
+                              :
+                                'Отметить как непрочитанное'
+                            }}</v-list-item-title>
                           </v-list-item>
                           <v-list-item class="clickable" @click="addInOutliner(article)">
                             <v-list-item-title>Добавить в структуру</v-list-item-title>
@@ -572,7 +582,8 @@ export default {
             title: 'youtube',
             url: 'https://youtube.com',
             tags: [],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -582,7 +593,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -592,7 +604,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -602,7 +615,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -612,7 +626,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -622,7 +637,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -632,7 +648,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -642,7 +659,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -652,7 +670,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -662,7 +681,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -672,7 +692,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -682,7 +703,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -692,7 +714,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -702,7 +725,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -712,7 +736,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -722,7 +747,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -732,7 +758,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -742,7 +769,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -752,7 +780,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -762,7 +791,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -772,7 +802,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -782,7 +813,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -792,7 +824,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -802,7 +835,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -812,7 +846,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -822,7 +857,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -832,7 +868,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -842,7 +879,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -852,7 +890,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -862,7 +901,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -872,7 +912,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -882,7 +923,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -892,7 +934,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -902,7 +945,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -912,7 +956,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -922,7 +967,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           },
           {
             title: 'youtube',
@@ -932,127 +978,8 @@ export default {
               'hosting',
               'video'
             ],
-            body: 'hosting'
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
-            body: 'hosting'
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
-            body: 'hosting'
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
-            body: 'hosting'
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
-            body: 'hosting'
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
-            body: 'hosting'
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
-            body: 'hosting'
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
-            body: 'hosting'
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
-            body: 'hosting'
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
-            body: 'hosting'
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
-            body: 'hosting'
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
-            body: 'hosting'
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
-            body: 'hosting'
+            body: 'hosting',
+            isUnreaded: false
           }
         ]
         for (let i = 0; i < this.articles.length; i++) {
@@ -1071,7 +998,8 @@ export default {
           title: this.title,
           url: this.url,
           tags: [],
-          body: 'hosting'
+          body: 'hosting',
+          isUnreaded: false
         })
         this.selectedArticles.push(false)
         this.articleExpanders.push(false)
@@ -1106,7 +1034,8 @@ export default {
 
     },
     markAsUnread (article) {
-
+      article.isUnreaded = !article.isUnreaded
+      this.$forceUpdate()
     },
     addInOutliner (article) {
 
