@@ -490,6 +490,17 @@
         </v-row>
       </v-footer>
     </v-slide-y-transition>
+    <v-slide-x-transition class="w-100">
+      <v-alert
+        v-if="isShowNotification"
+        height="50"
+        width="500"
+        color="#2A3B4D"
+        position="fixed"
+        location="left"
+        close-icon="mdi-circle"
+        class="text--white white--text">{{notificationContent}}</v-alert>
+    </v-slide-x-transition>
   </div>
 </template>
 
@@ -519,6 +530,8 @@ export default {
     const isPrivate = ref('')
     const readLater = ref('')
     const editDialog = ref('')
+    const isShowNotification = ref(false)
+    const notificationContent = ref('')
     return {
       fab,
       isLoading,
@@ -541,7 +554,9 @@ export default {
       shareToGroup,
       isPrivate,
       readLater,
-      editDialog
+      editDialog,
+      isShowNotification,
+      notificationContent
     }
   },
   mounted () {
@@ -1035,6 +1050,12 @@ export default {
     },
     markAsUnread (article) {
       article.isUnreaded = !article.isUnreaded
+      this.notificationContent = '1 элемент помечен как непрочитанный'
+      this.isShowNotification = true
+      setTimeout(() => {
+        this.isShowNotification = false
+        this.notificationContent = ''
+      }, 2500)
       this.$forceUpdate()
     },
     addInOutliner (article) {
@@ -1084,5 +1105,10 @@ export default {
 <style>
   .clickable {
     cursor: pointer !important;
+  }
+  .absolute {
+    position: fixed;
+    left: 15px;
+    top: calc(100% - (50px + 15px));
   }
 </style>
