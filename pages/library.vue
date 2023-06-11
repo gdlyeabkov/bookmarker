@@ -246,7 +246,7 @@
                           </v-btn>
                         </template>
                         <v-list>
-                          <v-list-item class="clickable" @click="edit(article)">
+                          <v-list-item class="clickable" @click="edit(article, articleIdx)">
                             <v-list-item-title>Редактировать</v-list-item-title>
                           </v-list-item>
                           <v-list-item class="clickable" @click="remove(articleIdx)">
@@ -396,8 +396,8 @@
             <v-text-field v-model="tags" placeholder="Тэги" />
             <v-text-field v-model="shareToOutliner" placeholder="Поделиться в иерархии" />
             <v-text-field v-model="shareToGroup" placeholder="Поделиться в группе" />
-            <v-checkbox v-model="isPrivate" placeholder="Приватный" />
-            <v-checkbox v-model="readLater" placeholder="Читать позже" />
+            <v-checkbox v-model="isPrivate" label="Приватный" />
+            <v-checkbox v-model="readLater" label="Читать позже" />
           </div>
         </v-card-text>
         <v-card-actions class="justify-end">
@@ -429,8 +429,8 @@
           <v-text-field v-model="tags" placeholder="Тэги" />
           <v-text-field v-model="shareToOutliner" placeholder="Поделиться в иерархии" />
           <v-text-field v-model="shareToGroup" placeholder="Поделиться в группе" />
-          <v-checkbox v-model="isPrivate" placeholder="Приватный" />
-          <v-checkbox v-model="readLater" placeholder="Читать позже" />
+          <v-checkbox v-model="isPrivate" label="Приватный" />
+          <v-checkbox v-model="readLater" label="Читать позже" />
         </v-card-text>
         <v-card-actions class="justify-end">
           <v-btn
@@ -532,6 +532,7 @@ export default {
     const editDialog = ref('')
     const isShowNotification = ref(false)
     const notificationContent = ref('')
+    const selectedArticleindex = ref(-1)
     return {
       fab,
       isLoading,
@@ -556,7 +557,8 @@ export default {
       readLater,
       editDialog,
       isShowNotification,
-      notificationContent
+      notificationContent,
+      selectedArticleindex
     }
   },
   mounted () {
@@ -581,6 +583,13 @@ export default {
       this.dialog = false
     },
     closeEditAlert () {
+      this.articles[this.selectedArticleindex].title = this.title
+      this.articles[this.selectedArticleindex].url = this.url
+      this.articles[this.selectedArticleindex].desc = this.desc
+      this.articles[this.selectedArticleindex].tags = this.tags
+      this.articles[this.selectedArticleindex].isPrivate = this.isPrivate
+      this.articles[this.selectedArticleindex].readLater = this.readLater
+      this.selectedArticleindex = -1
       this.editDialog = false
       this.title = ''
       this.url = ''
@@ -1031,12 +1040,13 @@ export default {
         this.readLater = ''
       }
     },
-    edit (article) {
+    edit (article, idx) {
       this.title = article.title
       this.url = article.url
       this.desc = article.desc
       this.tags = article.tags
       this.editDialog = true
+      this.selectedArticleindex = idx
     },
     remove (index) {
       this.articles = this.articles.filter((article, idx) => idx !== index)
