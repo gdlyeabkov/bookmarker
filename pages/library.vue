@@ -440,6 +440,38 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog
+      v-model="shareLinkDialog"
+      width="50%">
+      <v-card>
+        <v-toolbar
+          color="primary">
+          <v-toolbar-title>
+            <p class="text-capitalize mx-2">Поделиться страницей</p>
+          </v-toolbar-title>
+          <v-spacer />
+          <v-icon @click="closeShareLinkAlert">
+            mdi-close
+          </v-icon>
+        </v-toolbar>
+        <v-card-text>
+          <v-row>
+            <v-text-field
+              :value="link"
+              disabled="true" />
+            <v-btn
+              variant="text"
+              @click="shareLink"
+            >Превью</v-btn>
+          </v-row>
+          <v-row>
+            <v-icon class="mx-2">mdi-circle</v-icon>
+            <v-icon class="mx-2">mdi-circle</v-icon>
+            <v-icon class="mx-2">mdi-circle</v-icon>
+          </v-row>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
     <v-slide-y-transition class="w-100">
       <v-footer
         class="w-100"
@@ -529,10 +561,12 @@ export default {
     const shareToGroup = ref('')
     const isPrivate = ref('')
     const readLater = ref('')
-    const editDialog = ref('')
+    const editDialog = ref(false)
     const isShowNotification = ref(false)
     const notificationContent = ref('')
     const selectedArticleindex = ref(-1)
+    const shareLinkDialog = ref(false)
+    const link = ref('')
     return {
       fab,
       isLoading,
@@ -558,7 +592,9 @@ export default {
       editDialog,
       isShowNotification,
       notificationContent,
-      selectedArticleindex
+      selectedArticleindex,
+      shareLinkDialog,
+      link
     }
   },
   mounted () {
@@ -1053,7 +1089,8 @@ export default {
       this.$forceUpdate()
     },
     getLink (article) {
-
+      this.link = article.url
+      this.shareLinkDialog = true
     },
     sendEmail (article) {
 
@@ -1108,6 +1145,13 @@ export default {
     },
     saveEdit () {
       this.closeEditAlert()
+    },
+    shareLink () {
+      this.closeShareLinkAlert()
+    },
+    closeShareLinkAlert () {
+      this.shareLinkDialog = false
+      this.link = ''
     }
   }
 }
