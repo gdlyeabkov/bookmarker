@@ -472,6 +472,65 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+    <v-dialog
+      v-model="sendEmailDialog"
+      width="50%">
+      <v-card>
+        <v-toolbar
+          color="primary">
+          <v-toolbar-title>
+            <p class="text-capitalize mx-2">Отправить на почту</p>
+          </v-toolbar-title>
+          <v-spacer />
+          <v-icon @click="closeSendEmailAlert">
+            mdi-close
+          </v-icon>
+        </v-toolbar>
+        <v-card-text>
+          <v-text-field
+            :value="to"
+            disabled="true" />
+          <v-text-field
+            :value="subject"
+            disabled="true" />
+          <v-text-field
+            :value="msg"
+            disabled="true" />
+          <v-btn
+            variant="text"
+            @click="send"
+          >Отправить</v-btn>
+          <v-text-field
+            :value="markup"
+            disabled="true" />
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+    <v-dialog
+      v-model="addToOutlinerDialog"
+      width="50%">
+      <v-card>
+        <v-toolbar
+          color="primary">
+          <v-toolbar-title>
+            <p class="text-capitalize mx-2">Добавить элемент в структуру</p>
+          </v-toolbar-title>
+          <v-spacer />
+          <v-icon @click="closeAddToOutlinerAlert">
+            mdi-close
+          </v-icon>
+        </v-toolbar>
+        <v-card-text>
+          <v-text-field
+            :value="to"
+            placeholder="Поделитесь в структуре" />
+          <v-btn
+            variant="text"
+            @click="add"
+          >Добавить</v-btn>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
     <v-slide-y-transition class="w-100">
       <v-footer
         class="w-100"
@@ -567,6 +626,12 @@ export default {
     const selectedArticleindex = ref(-1)
     const shareLinkDialog = ref(false)
     const link = ref('')
+    const sendEmailDialog = ref(false)
+    const to = ref('')
+    const subject = ref('')
+    const msg = ref('')
+    const markup = ref('')
+    const addToOutlinerDialog = ref(false)
     return {
       fab,
       isLoading,
@@ -594,13 +659,25 @@ export default {
       notificationContent,
       selectedArticleindex,
       shareLinkDialog,
-      link
+      link,
+      sendEmailDialog,
+      to,
+      subject,
+      msg,
+      markup,
+      addToOutlinerDialog
     }
   },
   mounted () {
     this.getArticleContent()
   },
   methods: {
+    add () {
+      this.closeAddToOutlinerAlert()
+    },
+    closeAddToOutlinerAlert () {
+      this.addToOutlinerDialog = false
+    },
     toggleArticleSelection (idx) {
       if (this.sheet) {
         this.selectedArticles[idx] = !this.selectedArticles[idx]
@@ -1093,7 +1170,8 @@ export default {
       this.shareLinkDialog = true
     },
     sendEmail (article) {
-
+      this.markup = article.title
+      this.sendEmailDialog = true
     },
     markAsUnread (article) {
       article.isUnreaded = !article.isUnreaded
@@ -1106,7 +1184,7 @@ export default {
       this.$forceUpdate()
     },
     addInOutliner (article) {
-
+      this.addToOutlinerDialog = true
     },
     shareGroup (article) {
 
@@ -1152,6 +1230,16 @@ export default {
     closeShareLinkAlert () {
       this.shareLinkDialog = false
       this.link = ''
+    },
+    send () {
+      this.closeSendEmailAlert()
+    },
+    closeSendEmailAlert () {
+      this.sendEmailDialog = false
+      this.to = ''
+      this.subject = ''
+      this.msg = ''
+      this.markup = ''
     }
   }
 }
