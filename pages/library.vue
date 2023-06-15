@@ -532,6 +532,31 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+    <v-dialog
+      v-model="shareToGroupDialog"
+      width="50%">
+      <v-card>
+        <v-toolbar
+          color="primary">
+          <v-toolbar-title>
+            <p class="text-capitalize mx-2">Добавить элемент в группу</p>
+          </v-toolbar-title>
+          <v-spacer />
+          <v-icon @click="closeShareToGroupAlert">
+            mdi-close
+          </v-icon>
+        </v-toolbar>
+        <v-card-text>
+          <v-text-field
+            :value="to"
+            placeholder="Поделитесь в группе" />
+          <v-btn
+            variant="text"
+            @click="share"
+          >Поделиться</v-btn>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
     <v-slide-y-transition class="w-100">
       <v-footer
         class="w-100"
@@ -633,6 +658,7 @@ export default {
     const msg = ref('')
     const markup = ref('')
     const addToOutlinerDialog = ref(false)
+    const shareToGroupDialog = ref(false)
     return {
       fab,
       isLoading,
@@ -666,18 +692,25 @@ export default {
       subject,
       msg,
       markup,
-      addToOutlinerDialog
+      addToOutlinerDialog,
+      shareToGroupDialog
     }
   },
   mounted () {
     this.getArticleContent()
   },
   methods: {
+    share () {
+      this.closeShareToGroupAlert()
+    },
     getArticleOutliners (article) {
       return article.outliners.map(outliner => outliner.name).join(',')
     },
     add () {
       this.closeAddToOutlinerAlert()
+    },
+    closeShareToGroupAlert () {
+      this.shareToGroupDialog = false
     },
     closeAddToOutlinerAlert () {
       this.addToOutlinerDialog = false
@@ -1193,7 +1226,7 @@ export default {
       this.addToOutlinerDialog = true
     },
     shareGroup (article) {
-
+      this.shareToGroupDialog = true
     },
     closeSheet () {
       this.sheet = !this.sheet
