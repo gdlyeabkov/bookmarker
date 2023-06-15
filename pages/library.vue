@@ -229,6 +229,7 @@
                           @click="addTag">+ Тэг</v-chip>
                       </v-col>
                   </v-row>
+                  <p v-if="article.outliners.length">В <span class="font-weight-bold">структуре</span>: {{getArticleOutliners(article)}}</p>
                 </v-col>
                 <v-col cols="4">
                   <v-row>
@@ -672,6 +673,9 @@ export default {
     this.getArticleContent()
   },
   methods: {
+    getArticleOutliners (article) {
+      return article.outliners.map(outliner => outliner.name).join(',')
+    },
     add () {
       this.closeAddToOutlinerAlert()
     },
@@ -720,403 +724,405 @@ export default {
             url: 'https://youtube.com',
             tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ]
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
           },
           {
             title: 'youtube',
             url: 'https://youtube.com',
-            tags: [
-              'youtube',
-              'hosting',
-              'video'
-            ],
+            tags: [],
             body: 'hosting',
-            isUnreaded: false
+            isUnreaded: false,
+            outliners: []
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [],
+            body: 'hosting',
+            isUnreaded: false,
+            outliners: []
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [],
+            body: 'hosting',
+            isUnreaded: false,
+            outliners: []
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [],
+            body: 'hosting',
+            isUnreaded: false,
+            outliners: []
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [],
+            body: 'hosting',
+            isUnreaded: false,
+            outliners: []
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [],
+            body: 'hosting',
+            isUnreaded: false,
+            outliners: []
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [],
+            body: 'hosting',
+            isUnreaded: false,
+            outliners: []
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [],
+            body: 'hosting',
+            isUnreaded: false,
+            outliners: []
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [],
+            body: 'hosting',
+            isUnreaded: false,
+            outliners: []
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [],
+            body: 'hosting',
+            isUnreaded: false,
+            outliners: []
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [],
+            body: 'hosting',
+            isUnreaded: false,
+            outliners: []
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [],
+            body: 'hosting',
+            isUnreaded: false,
+            outliners: []
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [],
+            body: 'hosting',
+            isUnreaded: false,
+            outliners: []
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
+            tags: [],
+            body: 'hosting',
+            isUnreaded: false,
+            outliners: []
           }
         ]
         for (let i = 0; i < this.articles.length; i++) {
