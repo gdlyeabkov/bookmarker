@@ -319,13 +319,13 @@
               </v-col>
               <v-col cols="3">
                 <v-row class="my-4">
-                  <v-col cols="5">
+                  <v-col cols="6">
                     <v-menu>
                       <template v-slot:activator="{ on, attrs }">
                         <v-btn
                           icon
                           v-bind="attrs"
-                          v-on="on">{{visibility}}</v-btn>
+                          v-on="on">{{visibility}}<v-icon size="20">mdi-chevron-down</v-icon></v-btn>
                       </template>
                       <v-list>
                         <v-list-item class="clickable" @click="setVisibility('Фильтр')">
@@ -340,13 +340,13 @@
                       </v-list>
                     </v-menu>
                   </v-col>
-                  <v-col cols="5">
+                  <v-col cols="4">
                     <v-menu>
                       <template v-slot:activator="{ on, attrs }">
                         <v-btn
                           icon
                           v-bind="attrs"
-                          v-on="on">{{date}}</v-btn>
+                          v-on="on">{{date}}<v-icon size="20">mdi-chevron-down</v-icon></v-btn>
                       </template>
                       <v-list>
                         <v-list-item class="clickable" @click="setDate('Дата создания')">
@@ -359,7 +359,7 @@
                     </v-menu>
                   </v-col>
                   <v-col cols="2">
-                    <v-icon class="my-1" color="orange">mdi-rss-box</v-icon>
+                    <v-icon class="ml-2 my-1" color="orange">mdi-rss-box</v-icon>
                   </v-col>
                 </v-row>
               </v-col>
