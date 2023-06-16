@@ -207,19 +207,15 @@
                     <v-col cols="3">
                       <a :href="article.url">{{article.url}}</a>
                     </v-col>
-                    <v-row
-                      class="ml-2"
-                      dense
-                      no-gutters
-                      v-if="article.tags.length">
-                      <v-col
+                    <v-chip-group
+                      v-if="article.tags.length"
+                      class="ml-2">
+                      <v-chip
                         v-for="(tag, index) in article.tags"
-                        :key="index">
-                        <v-chip
-                          class="clickable"
-                          label>{{tag}}</v-chip>
-                      </v-col>
-                    </v-row>
+                        :key="index"
+                        class="clickable"
+                        label>{{tag}}</v-chip>
+                    </v-chip-group>
                     <v-col
                       v-else
                       cols="2">
@@ -426,7 +422,7 @@
         <v-card-text>
           <v-text-field v-model="title" placeholder="Название" />
           <v-text-field v-model="url" placeholder="URL" />
-          <v-text-field v-model="desc" placeholder="Описание" />
+          <v-textarea v-model="desc" placeholder="Описание" />
           <v-text-field v-model="tags" placeholder="Тэги" />
           <v-text-field v-model="shareToOutliner" placeholder="Поделиться в иерархии" />
           <v-text-field v-model="shareToGroup" placeholder="Поделиться в группе" />
@@ -733,12 +729,6 @@ export default {
       this.dialog = false
     },
     closeEditAlert () {
-      this.articles[this.selectedArticleindex].title = this.title
-      this.articles[this.selectedArticleindex].url = this.url
-      this.articles[this.selectedArticleindex].desc = this.desc
-      this.articles[this.selectedArticleindex].tags = this.tags
-      this.articles[this.selectedArticleindex].isPrivate = this.isPrivate
-      this.articles[this.selectedArticleindex].readLater = this.readLater
       this.selectedArticleindex = -1
       this.editDialog = false
       this.title = ''
@@ -755,6 +745,24 @@ export default {
           {
             title: 'youtube',
             url: 'https://youtube.com',
+            tags: [
+              'a',
+              'b',
+              'c'
+            ],
+            body: 'hosting',
+            isUnreaded: false,
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
+          },
+          {
+            title: 'youtube',
+            url: 'https://youtube.com',
             tags: [],
             body: 'hosting',
             isUnreaded: false,
@@ -763,7 +771,8 @@ export default {
                 id: -1,
                 name: 'A'
               }
-            ]
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -771,7 +780,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -779,7 +794,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -787,7 +808,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -795,7 +822,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -803,7 +836,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -811,7 +850,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -819,7 +864,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -827,7 +878,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -835,7 +892,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -843,7 +906,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -851,7 +920,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -859,7 +934,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -867,7 +948,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -875,7 +962,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -883,7 +976,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -891,7 +990,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -899,7 +1004,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -907,7 +1018,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -915,7 +1032,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -923,7 +1046,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -931,7 +1060,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -939,7 +1074,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -947,7 +1088,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -955,7 +1102,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -963,7 +1116,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -971,7 +1130,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -979,7 +1144,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -987,7 +1158,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -995,7 +1172,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -1003,7 +1186,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -1011,7 +1200,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -1019,7 +1214,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -1027,7 +1228,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -1035,7 +1242,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -1043,7 +1256,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -1051,7 +1270,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -1059,7 +1284,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -1067,7 +1298,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -1075,7 +1312,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -1083,7 +1326,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -1091,7 +1340,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -1099,7 +1354,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -1107,7 +1368,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -1115,7 +1382,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -1123,7 +1396,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -1131,7 +1410,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -1139,7 +1424,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -1147,7 +1438,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           },
           {
             title: 'youtube',
@@ -1155,7 +1452,13 @@ export default {
             tags: [],
             body: 'hosting',
             isUnreaded: false,
-            outliners: []
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: false
           }
         ]
         for (let i = 0; i < this.articles.length; i++) {
@@ -1196,7 +1499,14 @@ export default {
       this.title = article.title
       this.url = article.url
       this.desc = article.desc
-      this.tags = article.tags
+      this.tags = article.tags.join(' ')
+      /*
+       * TODO
+       * isShareToOutliner
+       * isShareToGroup
+       */
+      this.isPrivate = article.isPrivate
+      this.isUnreaded = article.isUnreaded
       this.editDialog = true
       this.selectedArticleindex = idx
     },
@@ -1261,7 +1571,14 @@ export default {
       }
     },
     saveEdit () {
+      this.articles[this.selectedArticleindex].title = this.title
+      this.articles[this.selectedArticleindex].url = this.url
+      this.articles[this.selectedArticleindex].desc = this.desc
+      this.articles[this.selectedArticleindex].tags = this.tags.split(' ')
+      this.articles[this.selectedArticleindex].isPrivate = this.isPrivate
+      this.articles[this.selectedArticleindex].readLater = this.readLater
       this.closeEditAlert()
+      this.$forceUpdate()
     },
     shareLink () {
       this.closeShareLinkAlert()
