@@ -391,8 +391,8 @@
             <v-text-field v-model="title" placeholder="Название" />
             <v-text-field v-model="desc" placeholder="Описание" />
             <v-text-field v-model="tags" placeholder="Тэги" />
-            <v-text-field v-model="shareToOutliner" placeholder="Поделиться в иерархии" />
-            <v-text-field v-model="shareToGroup" placeholder="Поделиться в группе" />
+            <v-select v-model="shareToOutliner" placeholder="Поделиться в иерархии" />
+            <v-select v-model="shareToGroup" placeholder="Поделиться в группе" />
             <v-checkbox v-model="isPrivate" label="Приватный" />
             <v-checkbox v-model="readLater" label="Читать позже" />
           </div>
@@ -424,8 +424,8 @@
           <v-text-field v-model="url" placeholder="URL" />
           <v-textarea v-model="desc" placeholder="Описание" />
           <v-text-field v-model="tags" placeholder="Тэги" />
-          <v-text-field v-model="shareToOutliner" placeholder="Поделиться в иерархии" />
-          <v-text-field v-model="shareToGroup" placeholder="Поделиться в группе" />
+          <v-select v-model="shareToOutliner" placeholder="Поделиться в иерархии" />
+          <v-select v-model="shareToGroup" placeholder="Поделиться в группе" />
           <v-checkbox v-model="isPrivate" label="Приватный" />
           <v-checkbox v-model="readLater" label="Читать позже" />
         </v-card-text>
@@ -638,10 +638,10 @@ export default {
     const title = ref('')
     const desc = ref('')
     const tags = ref('')
-    const shareToOutliner = ref('')
-    const shareToGroup = ref('')
-    const isPrivate = ref('')
-    const readLater = ref('')
+    const shareToOutliner = ref([])
+    const shareToGroup = ref([])
+    const isPrivate = ref(false)
+    const readLater = ref(false)
     const editDialog = ref(false)
     const isShowNotification = ref(false)
     const notificationContent = ref('')
@@ -1509,6 +1509,8 @@ export default {
       this.isUnreaded = article.isUnreaded
       this.editDialog = true
       this.selectedArticleindex = idx
+      this.shareToOutliner = article.outliners
+      this.$forceUpdate()
     },
     remove (index) {
       this.articles = this.articles.filter((article, idx) => idx !== index)
