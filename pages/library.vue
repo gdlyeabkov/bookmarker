@@ -452,19 +452,20 @@
           </v-icon>
         </v-toolbar>
         <v-card-text>
-          <v-row>
+          <v-row class="ma-5">
             <v-text-field
               :value="link"
-              disabled="true" />
+              readonly />
             <v-btn
-              variant="text"
+              color="cyan"
+              class="white--text"
               @click="shareLink"
             >Превью</v-btn>
           </v-row>
           <v-row>
-            <v-icon class="mx-2">mdi-circle</v-icon>
-            <v-icon class="mx-2">mdi-circle</v-icon>
-            <v-icon class="mx-2">mdi-circle</v-icon>
+            <button class="fab fa-twitter btn btn btn-light mx-2" />
+            <button class="fab fa-facebook btn btn btn-light mx-2" />
+            <button class="fab fa-youtube btn btn btn-light mx-2" />
           </v-row>
         </v-card-text>
       </v-card>
@@ -486,20 +487,23 @@
         <v-card-text>
           <v-text-field
             :value="to"
-            disabled="true" />
+            placeholder="Используте Enter для добавления нескольких E-mail" />
           <v-text-field
             :value="subject"
-            disabled="true" />
-          <v-text-field
+            placeholder="Тема" />
+          <v-textarea
             :value="msg"
-            disabled="true" />
-          <v-btn
-            variant="text"
-            @click="send"
-          >Отправить</v-btn>
-          <v-text-field
-            :value="markup"
-            disabled="true" />
+            placeholder="Сообщение" />
+          <v-row>
+            <v-btn
+              color="cyan"
+              class="white--text justify-end"
+              @click="send"
+            >Отправить</v-btn>
+          </v-row>
+          <div
+            class="mt-5"
+            v-html="markup" />
         </v-card-text>
       </v-card>
     </v-dialog>

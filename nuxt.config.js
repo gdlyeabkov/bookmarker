@@ -15,7 +15,8 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: 'https://www.diigo.com/asset/images/extension_icon.png' }
+      { rel: 'icon', type: 'image/x-icon', href: 'https://www.diigo.com/asset/images/extension_icon.png' },
+      { rel: 'stylesheet', type: 'text/css', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css' },
     ]
   },
 
