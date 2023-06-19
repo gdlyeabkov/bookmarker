@@ -494,10 +494,10 @@
           <v-textarea
             :value="msg"
             placeholder="Сообщение" />
-          <v-row>
+          <v-row class="d-flex justify-end">
             <v-btn
               color="cyan"
-              class="white--text justify-end"
+              class="white--text"
               @click="send"
             >Отправить</v-btn>
           </v-row>
@@ -522,13 +522,16 @@
           </v-icon>
         </v-toolbar>
         <v-card-text>
-          <v-text-field
-            :value="to"
-            placeholder="Поделитесь в структуре" />
-          <v-btn
-            variant="text"
-            @click="add"
-          >Добавить</v-btn>
+          <v-select
+            :items="shareToOutliner"
+            placeholder="Поделитесь в структуре"
+            class="my-5" />
+          <v-row class="d-flex justify-end my-5">
+            <v-btn
+              variant="text"
+              @click="add"
+            >Добавить</v-btn>
+          </v-row>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -547,13 +550,14 @@
           </v-icon>
         </v-toolbar>
         <v-card-text>
-          <v-text-field
-            :value="to"
+          <v-select
+            :items="shareToGroup"
             placeholder="Поделитесь в группе" />
-          <v-btn
-            variant="text"
-            @click="share"
-          >Поделиться</v-btn>
+          <v-row class="d-flex justify-end">
+            <v-btn
+              variant="text"
+              @click="share">Поделиться</v-btn>
+            </v-row>
         </v-card-text>
       </v-card>
     </v-dialog>
