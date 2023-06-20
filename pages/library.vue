@@ -9,8 +9,14 @@
         <v-btn class="text-capitalize mx-2" color="transparent" elevation="0">Моя библиотека</v-btn>
       </v-toolbar-title>
       <v-col cols="2">
-        <v-text-field dense prepend-icon="mdi-magnify" append-icon="mdi-menu-down" placeholder="Поиск...">
-        </v-text-field>
+        <v-autocomplete
+          clearable
+          append-icon="mdi-magnify"
+          label="Поиск..."
+          v-model="autocomplete"
+          :items="suggestions"
+          hide-no-data
+          @click:append="getArticleContent" />
       </v-col>
       <v-spacer />
       <v-btn
@@ -663,6 +669,8 @@ export default {
     const markup = ref('')
     const addToOutlinerDialog = ref(false)
     const shareToGroupDialog = ref(false)
+    const autocomplete = ref('')
+    const suggestions = ref([])
     return {
       fab,
       isLoading,
@@ -697,13 +705,25 @@ export default {
       msg,
       markup,
       addToOutlinerDialog,
-      shareToGroupDialog
+      shareToGroupDialog,
+      autocomplete,
+      suggestions
     }
   },
   mounted () {
     this.getArticleContent()
   },
   methods: {
+    updateSuggestions () {
+      const val = []
+      if (this.autocomplete.length) {
+        val.push(this.autocomplete)
+        val.push(`Поиск #${this.autocomplete}`)
+      }
+      this.suggestions = val
+      alert(val)
+      this.$forceUpdate()
+    },
     share () {
       this.closeShareToGroupAlert()
     },
@@ -747,6 +767,7 @@ export default {
       this.readLater = false
     },
     getArticleContent () {
+      this.isLoading = true
       setTimeout(() => {
         // this.articles = []
         this.articles = [
@@ -1469,6 +1490,13 @@ export default {
             isPrivate: false
           }
         ]
+        this.articles = this.articles.filter((item) => {
+          const title = item.title
+          const isMatch = title.includes(this.autocomplete)
+          return isMatch
+        })
+        this.selectedArticles = []
+        this.articleExpanders = []
         for (let i = 0; i < this.articles.length; i++) {
           this.selectedArticles.push(false)
           this.articleExpanders.push(false)
