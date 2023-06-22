@@ -144,7 +144,8 @@
           </v-icon>
         </v-toolbar>
         <v-card-text>
-          <p>{{`Вы удаляете структуру (${getSelectedOutlinerTitle()}).`}}</p>
+          <p
+            class="title ma-5">{{`Вы удаляете структуру (${getSelectedOutlinerTitle()}).`}}</p>
         </v-card-text>
         <v-card-actions class="justify-end">
           <v-btn
@@ -171,6 +172,16 @@
         close-icon="mdi-circle"
         class="text--white white--text">{{notificationContent}}</v-alert>
     </v-slide-x-transition>
+    <v-row class="d-flex justify-start">
+      <v-snackbar
+        v-model="hasShowNotification"
+        :timeout="2000"
+        position="absolute"
+        location="bottom left"
+      >
+        Your profile has been updated
+      </v-snackbar>
+    </v-row>
   </div>
 </template>
 
@@ -207,6 +218,7 @@ export default {
     const outliners = ref([])
     const renameDialog = ref(false)
     const removeDialog = ref(false)
+    const hasShowNotification = ref(false)
     return {
       fab,
       isLoading,
@@ -229,7 +241,8 @@ export default {
       headers,
       outliners,
       renameDialog,
-      removeDialog
+      removeDialog,
+      hasShowNotification
     }
   },
   mounted () {
@@ -276,6 +289,8 @@ export default {
     },
     closeRemoveAlert () {
       this.removeDialog = false
+      this.notificationContent = '1 структура была удалена'
+      this.hasShowNotification = true
     },
     toggleArticleSelection (idx) {
       if (this.sheet) {

@@ -200,7 +200,7 @@
                       <p>{{article.title}}</p>
                     </v-col>
                     <v-col cols="2">
-                      <v-icon>mdi-circle</v-icon>
+                      <v-icon v-if="article.isPrivate">mdi-circle</v-icon>
                       <v-hover
                         v-slot="{ isHovering, props }">
                           <v-icon
