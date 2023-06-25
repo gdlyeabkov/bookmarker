@@ -9,16 +9,165 @@
         <v-btn class="text-capitalize mx-2" color="transparent" elevation="0">Мои группы</v-btn>
       </v-toolbar-title>
     </v-toolbar>
-    <v-row>
-      <v-col>
-        <p class="title">
-          My Groups
-        </p>
-        <p>
-          You haven't joined or created any group yet.
-        </p>
+    <v-row v-if="currentTab === 0">
+      <v-col cols="8">
+        <v-container class="mx-5">
+          <p class="title">Мои группы</p>
+          <p>Вы еще не присоединились и не создали ни одной группы.</p>
+        </v-container>
+      </v-col>
+      <v-col cols="4">
+        <v-container class="mx-5">
+          <v-card>
+            <v-card-title>Создайте группу за 2 простых шага</v-card-title>
+            <v-card-text>
+              <v-btn @click="create">Создать новую группу</v-btn>
+            </v-card-text>
+          </v-card>
+        </v-container>
       </v-col>
     </v-row>
+    <v-form v-else-if="currentTab === 1">
+      <p>Создать группу</p>
+      <v-row>
+        <p>Имя группы:</p>
+        <v-text-field />
+      </v-row>
+      <v-row>
+        <p>URL группы:</p>
+        <v-text-field />
+      </v-row>
+      <v-row>
+        <p>Описание:</p>
+        <v-textarea />
+      </v-row>
+      <v-row>
+        <p>Категории:</p>
+        <v-radio-group>
+          <v-row>
+            <v-radio
+              label="Бизнес и финансы"
+              value="1" />
+            <v-radio
+              label="Компьютеры и Интернет"
+              value="1" />
+          </v-row>
+          <v-row>
+            <v-radio
+              label="Культура и общественные развлечения и искусство"
+              value="1" />
+            <v-radio
+              label="Семейные и домашние игры"
+              value="1" />
+          </v-row>
+          <v-row>
+            <v-radio
+              label="Правительство и политика"
+              value="1" />
+            <v-radio
+              label="Здоровье и благополучие"
+              value="1" />
+          </v-row>
+          <v-row>
+            <v-radio
+              label="Коллекционирование и хобби"
+              value="1" />
+            <v-radio
+              label="Музыка"
+              value="1" />
+          </v-row>
+          <v-row>
+            <v-radio
+              label="Отдых и спорт"
+              value="1" />
+            <v-radio
+              label="Религия и вероисповедания"
+              value="1" />
+          </v-row>
+          <v-row>
+            <v-radio
+              label="Романтика и отношения"
+              value="1" />
+            <v-radio
+              label="Школы и образование"
+              value="1" />
+          </v-row>
+          <v-row>
+            <v-radio
+              label="Образование - K12 Наука"
+              value="1" />
+            <v-radio
+              label="Видео путешествия"
+              value="1" />
+          </v-row>
+          <v-radio
+            label="Не классифицировано"
+            value="1" />
+        </v-radio-group>
+      </v-row>
+      <v-row>
+        <p>Кто может просматривать?</p>
+        <v-col>
+          <v-radio-group>
+            <v-radio
+              label="Вы не можете создавать новые общедоступные группы из-за вашего тарифного плана."
+              value="1" />
+            <v-radio
+              label="Частный - только участники группы могут просматривать"
+              value="1" />
+          </v-radio-group>
+        </v-col>
+      </v-row>
+      <v-row>
+        <p>Доступна для поиска?</p>
+        <v-col>
+          <v-radio-group>
+            <v-radio
+              label="Вывести эту группу в результаты поиска"
+              value="1" />
+            <v-radio
+              label="Не указывать эту группу"
+              value="1" />
+          </v-radio-group>
+        </v-col>
+      </v-row>
+      <v-row>
+        <p>Как присоединиться?</p>
+        <v-col>
+          <v-radio-group>
+            <v-radio
+              label="Открытый — любой может присоединиться (доступно только для общедоступной группы)"
+              value="1" />
+            <v-radio
+              label="Подать заявку на вступление — требуется одобрение модератора"
+              value="1" />
+            <v-radio
+              label="Только по приглашению"
+              value="1" />
+          </v-radio-group>
+        </v-col>
+      </v-row>
+      <v-row>
+        <p>Кто может пригласить новых участники?</p>
+        <v-col>
+          <v-radio-group>
+            <v-radio
+              label="Только модератор группы"
+              value="1" />
+            <v-radio
+              label="Все участники группы"
+              value="1" />
+          </v-radio-group>
+        </v-col>
+      </v-row>
+      <v-row class="my-5" justify="space-around">
+        <v-btn @click="currentTab = 0">Создать группу</v-btn>
+        <v-btn
+          color="transparent"
+          elevation="0"
+          @click="currentTab = 0">Назад</v-btn>
+      </v-row>
+    </v-form>
     <v-dialog
       v-model="dialog"
       width="50%">
@@ -277,6 +426,7 @@
 import { ref } from 'vue'
 export default {
   setup () {
+    const currentTab = ref(0)
     const fab = ref(false)
     const isLoading = ref(true)
     const dialog = ref(false)
@@ -314,6 +464,7 @@ export default {
     const autocomplete = ref('')
     const suggestions = ref([])
     return {
+      currentTab,
       fab,
       isLoading,
       dialog,
@@ -356,6 +507,9 @@ export default {
     this.getArticleContent()
   },
   methods: {
+    create () {
+      this.currentTab = 1
+    },
     updateSuggestions () {
       const val = []
       if (this.autocomplete.length) {
