@@ -179,7 +179,7 @@
           <div v-if="articles.length">
             <div
               v-for="(article, articleIdx) in getArticlesForPage(page)"
-              :key="article"
+              :key="article.id"
               @click="toggleArticleSelection(articleIdx)"
               :class="{'ma-5': true, 'clickable': sheet, 'pa-5': true}"
               :style="sheet && selectedArticles[articleIdx] ?
@@ -634,6 +634,46 @@
 <script>
 import { ref } from 'vue'
 export default {
+  async asyncData ({ $axios }) {
+    const response = await $axios.$get('http://localhost:8000/api/bookmarks')
+    const status = response.status
+    const isSuccessfull = status === 'OK'
+    let bookmarks = []
+    // const bookmarks = []
+    if (isSuccessfull) {
+      bookmarks = response.bookmarks.map((bookmark) => {
+        return {
+          id: bookmark.id,
+          title: bookmark.title,
+          url: bookmark.url,
+          tags: [],
+          body: bookmark.body,
+          isUnreaded: false,
+          outliners: [
+            {
+              id: -1,
+              name: 'A'
+            }
+          ],
+          isPrivate: bookmark.isPrivate
+        }
+      })
+    }
+    let isLoading = true
+    const selected = []
+    const expanders = []
+    for (let i = 0; i < bookmarks.length; i++) {
+      selected.push(false)
+      expanders.push(false)
+    }
+    isLoading = bookmarks.length <= 0
+    return {
+      isLoading,
+      articles: bookmarks,
+      selectedArticles: selected,
+      articleExpanders: expanders
+    }
+  },
   setup () {
     const fab = ref(false)
     const isLoading = ref(true)
@@ -710,9 +750,6 @@ export default {
       suggestions
     }
   },
-  mounted () {
-    this.getArticleContent()
-  },
   methods: {
     updateSuggestions () {
       const val = []
@@ -766,34 +803,20 @@ export default {
       this.isPrivate = false
       this.readLater = false
     },
-    getArticleContent () {
+    async getArticleContent () {
       this.isLoading = true
-      setTimeout(() => {
-        // this.articles = []
-        this.articles = [
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [
-              'a',
-              'b',
-              'c'
-            ],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
+      const response = await this.$axios.$get('http://localhost:8000/api/bookmarks')
+      const status = response.status
+      const isSuccessfull = status === 'OK'
+      let bookmarks = []
+      if (isSuccessfull) {
+        bookmarks = response.bookmarks.map((bookmark) => {
+          return {
+            id: bookmark.id,
+            title: bookmark.title,
+            url: bookmark.url,
             tags: [],
-            body: 'hosting',
+            body: bookmark.body,
             isUnreaded: false,
             outliners: [
               {
@@ -801,708 +824,22 @@ export default {
                 name: 'A'
               }
             ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
-          },
-          {
-            title: 'youtube',
-            url: 'https://youtube.com',
-            tags: [],
-            body: 'hosting',
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: false
+            isPrivate: bookmark.isPrivate
           }
-        ]
-        this.articles = this.articles.filter((item) => {
-          const title = item.title
-          const isMatch = title.includes(this.autocomplete)
-          return isMatch
         })
-        this.selectedArticles = []
-        this.articleExpanders = []
-        for (let i = 0; i < this.articles.length; i++) {
-          this.selectedArticles.push(false)
-          this.articleExpanders.push(false)
-        }
-        this.isLoading = false
-      }, 3000)
+      }
+      this.articles = bookmarks.filter((item) => {
+        const title = item.title
+        const isMatch = title.includes(this.autocomplete)
+        return isMatch
+      })
+      this.selectedArticles = []
+      this.articleExpanders = []
+      for (let i = 0; i < this.articles.length; i++) {
+        this.selectedArticles.push(false)
+        this.articleExpanders.push(false)
+      }
+      this.isLoading = bookmarks.length <= 0
     },
     next () {
       if (this.bookmarkAlertStep === 1) {
