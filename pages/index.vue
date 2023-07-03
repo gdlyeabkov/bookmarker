@@ -4,3 +4,10 @@
     </v-col>
   </v-row>
 </template>
+<script>
+export default {
+  mounted () {
+    this.$router.push({ path: '/library' })
+  }
+}
+</script>
