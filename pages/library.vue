@@ -384,10 +384,12 @@
         <v-toolbar
           color="primary">
           <v-toolbar-title>
-            <p class="text-capitalize mx-2">Закладка</p>
+            <p class="text-capitalize mx-2 white--text">Закладка</p>
           </v-toolbar-title>
           <v-spacer />
-          <v-icon @click="closeAlert">
+          <v-icon
+            color="white"
+            @click="closeAlert">
             mdi-close
           </v-icon>
         </v-toolbar>
@@ -407,7 +409,20 @@
           <v-btn
             variant="text"
             @click="next"
-          >{{bookmarkAlertNextBtnText}}</v-btn>
+            color="#0000FF"
+            class="white--text">
+            <v-progress-circular
+              v-if="isAddBookmarkLoading"
+              indeterminate
+              color="white"
+              size="24" />
+            {{
+              isAddBookmarkLoading ?
+                ''
+              :
+                bookmarkAlertNextBtnText
+            }}
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -675,6 +690,7 @@ export default {
     }
   },
   setup () {
+    const isAddBookmarkLoading = ref(false)
     const fab = ref(false)
     const isLoading = ref(true)
     const dialog = ref(false)
@@ -747,7 +763,8 @@ export default {
       addToOutlinerDialog,
       shareToGroupDialog,
       autocomplete,
-      suggestions
+      suggestions,
+      isAddBookmarkLoading
     }
   },
   methods: {
@@ -765,6 +782,9 @@ export default {
       this.closeShareToGroupAlert()
     },
     getArticleOutliners (article) {
+      if (!article.outliners) {
+        return []
+      }
       return article.outliners.map(outliner => outliner.name).join(',')
     },
     add () {
@@ -841,11 +861,20 @@ export default {
       }
       this.isLoading = bookmarks.length <= 0
     },
-    next () {
-      if (this.bookmarkAlertStep === 1) {
-        this.bookmarkAlertNextBtnText = 'Добавить'
-        this.bookmarkAlertStep = 2
-      } else if (this.bookmarkAlertStep === 2) {
+    async next () {
+      const isFirstStep = this.bookmarkAlertStep === 1
+      const isSecondStep = this.bookmarkAlertStep === 2
+      const isSetUrl = this.url.length
+      const isExpandForm = isFirstStep && isSetUrl
+      if (isExpandForm) {
+        this.isAddBookmarkLoading = true
+        setTimeout(() => {
+          this.isAddBookmarkLoading = false
+          this.bookmarkAlertNextBtnText = 'Добавить'
+          this.bookmarkAlertStep = 2
+        }, 5000)
+      } else if (isSecondStep) {
+        await this.$axios.$post('')
         this.articles.push({
           title: this.title,
           url: this.url,
