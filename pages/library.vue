@@ -727,6 +727,7 @@ export default {
     const shareToGroupDialog = ref(false)
     const autocomplete = ref('')
     const suggestions = ref([])
+    const body = ref('_')
     return {
       fab,
       isLoading,
@@ -764,7 +765,8 @@ export default {
       shareToGroupDialog,
       autocomplete,
       suggestions,
-      isAddBookmarkLoading
+      isAddBookmarkLoading,
+      body
     }
   },
   methods: {
@@ -874,7 +876,22 @@ export default {
           this.bookmarkAlertStep = 2
         }, 5000)
       } else if (isSecondStep) {
-        await this.$axios.$post('')
+        const data = new FormData()
+        data.append('url', this.url)
+        data.append('title', this.title)
+        data.append('desc', this.desc)
+        data.append('body', this.body)
+        let isPrivate = '0'
+        if (this.isPrivate) {
+          isPrivate = '1'
+        }
+        data.append('private', isPrivate)
+        data.append('user', '-1')
+        await this.$axios.$post('http://localhost:8000/api/bookmark/', data, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
         this.articles.push({
           title: this.title,
           url: this.url,
