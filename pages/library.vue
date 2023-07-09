@@ -236,7 +236,7 @@
                 <v-col cols="4">
                   <v-row>
                     <v-col cols="6">
-                      <p>May 14, 2023</p>
+                      <p>{{ article.date }}</p>
                     </v-col>
                     <v-col cols="6">
                       <v-menu>
@@ -584,7 +584,7 @@
     </v-dialog>
     <v-slide-y-transition class="w-100">
       <v-footer
-        class="w-100"
+        class="w-100 pa-5"
         v-show="sheet"
         elevation="2"
         color="rgb(255, 255, 255)"
@@ -608,14 +608,18 @@
             cols="6"
             v-if="selectedArticles.filter(item => item).length > 0">
             <v-row>
-              <v-btn>Организовать в структуре</v-btn>
-              <v-btn>Поделиться в группе</v-btn>
-              <v-btn>Отправить почту</v-btn>
-              <v-btn>Создать отчет</v-btn>
-              <v-btn>
+              <v-btn class="ma-2">Организовать в структуре</v-btn>
+              <v-btn class="ma-2">Поделиться в группе</v-btn>
+              <v-btn class="ma-2">Отправить почту</v-btn>
+              <v-btn class="ma-2">Создать отчет</v-btn>
+              <v-btn
+                icon
+                class="ma-2">
                 <v-icon>mdi-dots-horizontal</v-icon>
               </v-btn>
-              <v-btn>
+              <v-btn
+                icon
+                class="ma-2">
                 <v-icon>mdi-trash-can-outline</v-icon>
               </v-btn>
             </v-row>
@@ -648,6 +652,7 @@
 
 <script>
 import { ref } from 'vue'
+import moment from 'moment'
 export default {
   async asyncData ({ $axios }) {
     const response = await $axios.$get('http://localhost:8000/api/bookmarks')
@@ -670,7 +675,8 @@ export default {
               name: 'A'
             }
           ],
-          isPrivate: bookmark.isPrivate
+          isPrivate: bookmark.isPrivate,
+          date: moment(bookmark.date).locale('ru').format('MMMM D, YYYY')
         }
       })
     }
@@ -846,7 +852,8 @@ export default {
                 name: 'A'
               }
             ],
-            isPrivate: bookmark.isPrivate
+            isPrivate: bookmark.isPrivate,
+            date: bookmark.date
           }
         })
       }
@@ -931,9 +938,28 @@ export default {
       this.shareToOutliner = article.outliners
       this.$forceUpdate()
     },
-    remove (index) {
-      this.articles = this.articles.filter((article, idx) => idx !== index)
-      this.$forceUpdate()
+    async remove (index) {
+      console.log(`article id: ${this.articles[index].id}`)
+      const articleId = this.articles[index].id
+      const data = {
+        id: articleId
+      }
+      console.log(`data: ${JSON.stringify(data)}`)
+      try {
+        await this.$axios.$delete(`http://localhost:8000/api/bookmark/?id=${articleId}`, data, {
+          headers: {
+            // 'Content-Type': 'application/x-www-form-urlencoded'
+            'Content-Type': 'application/json'
+          }
+        })
+        this.articles = this.articles.filter((article, idx) => idx !== index)
+        this.$forceUpdate()
+      } catch (e) {
+        /*
+         *  TODO
+         *  show error
+         */
+      }
     },
     getLink (article) {
       this.link = article.url
@@ -943,15 +969,23 @@ export default {
       this.markup = article.title
       this.sendEmailDialog = true
     },
-    markAsUnread (article) {
-      article.isUnreaded = !article.isUnreaded
-      this.notificationContent = '1 элемент помечен как непрочитанный'
-      this.isShowNotification = true
-      setTimeout(() => {
-        this.isShowNotification = false
-        this.notificationContent = ''
-      }, 2500)
-      this.$forceUpdate()
+    async markAsUnread (article) {
+      const articleId = article.id
+      const data = {}
+      try {
+        await this.$axios.$put(`http://localhost:8000/api/bookmark/mark/?id=${articleId}`, data, {
+          headers: {
+            // 'Content-Type': 'application/x-www-form-urlencoded'
+            'Content-Type': 'application/json'
+          }
+        })
+        this.$forceUpdate()
+      } catch (e) {
+        /*
+         *  TODO
+         *  show error
+         */
+      }
     },
     addInOutliner (article) {
       this.addToOutlinerDialog = true
@@ -991,15 +1025,43 @@ export default {
         this.$forceUpdate()
       }
     },
-    saveEdit () {
-      this.articles[this.selectedArticleindex].title = this.title
-      this.articles[this.selectedArticleindex].url = this.url
-      this.articles[this.selectedArticleindex].desc = this.desc
-      this.articles[this.selectedArticleindex].tags = this.tags.split(' ')
-      this.articles[this.selectedArticleindex].isPrivate = this.isPrivate
-      this.articles[this.selectedArticleindex].readLater = this.readLater
-      this.closeEditAlert()
-      this.$forceUpdate()
+    async saveEdit () {
+      const data = new FormData()
+      data.append('id', this.articles[this.selectedArticleindex].id)
+      data.append('url', this.url)
+      data.append('title', this.title)
+      data.append('desc', this.desc)
+      data.append('body', this.body)
+      let isPrivate = '0'
+      if (this.isPrivate) {
+        isPrivate = '1'
+      }
+      data.append('private', isPrivate)
+      data.append('user', '-1')
+      try {
+        await this.$axios.$put(
+          // `http://localhost:8000/api/bookmark/?id=${this.articles[this.selectedArticleindex].id}&url=${this.url}&title=${this.title}&desc=${this.desc}&body=${this.body}&private=${isPrivate}`
+          'http://localhost:8000/api/bookmark/',
+          data,
+          {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            }
+          })
+        this.articles[this.selectedArticleindex].title = this.title
+        this.articles[this.selectedArticleindex].url = this.url
+        this.articles[this.selectedArticleindex].desc = this.desc
+        this.articles[this.selectedArticleindex].tags = this.tags.split(' ')
+        this.articles[this.selectedArticleindex].isPrivate = this.isPrivate
+        this.articles[this.selectedArticleindex].readLater = this.readLater
+        this.closeEditAlert()
+        this.$forceUpdate()
+      } catch (e) {
+        /*
+         * TODO
+         * show error
+         */
+      }
     },
     shareLink () {
       this.closeShareLinkAlert()
