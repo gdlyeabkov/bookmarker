@@ -28,7 +28,7 @@
         class="text-capitalize mx-4"
         color="transparent"
         elevation="0"
-        @click="sheet = !sheet">{{sheet ? 'Быстрое редактирование' : 'Массовое редактирование'}}</v-btn>
+        @click="toggleSheet">{{sheet ? 'Быстрое редактирование' : 'Массовое редактирование'}}</v-btn>
       <v-speed-dial
         v-model="fab"
         :top="true"
@@ -205,7 +205,7 @@
                         v-slot="{ isHovering, props }">
                           <v-icon
                             v-bind="props"
-                            :class="{'d-none': isHovering}">mdi-grease-pencil</v-icon>
+                            :class="{'d-none': isHovering, 'clickable': true}">mdi-grease-pencil</v-icon>
                       </v-hover>
                     </v-col>
                   </v-row>
@@ -248,7 +248,7 @@
                             <v-icon>mdi-dots-vertical</v-icon>
                           </v-btn>
                         </template>
-                        <v-list>
+                        <v-list v-if="!sheet">
                           <v-list-item class="clickable" @click="edit(article, articleIdx)">
                             <v-list-item-title>Редактировать</v-list-item-title>
                           </v-list-item>
@@ -586,7 +586,7 @@
       <v-footer
         class="w-100 pa-5"
         v-show="sheet"
-        elevation="2"
+        elevation="5"
         color="rgb(255, 255, 255)"
         app>
         <v-row
@@ -595,39 +595,57 @@
             cols="4"
             class="ma-5">
             <v-btn
-              class="text-capitalize mx-2"
+              class="text-capitalize mx-2 green--text"
               color="transparent"
               elevation="0"
               @click="selectAll">Выбрать все</v-btn>
-            <span class="mx-2">{{selectedArticles.filter(item => item).length}} элементов выбрано</span>
-            <span
-              class="mx-2"
-              v-if="selectedArticles.filter(item => item).length <= 0">Щелкните на элемент чтобы выбрать</span>
+            <v-chip
+              color="green"
+              class="white--text">{{selectedArticles.filter(item => item).length}}</v-chip>
+            <span class="mx-2"> элементов выбрано</span>
           </v-col>
           <v-col
-            cols="6"
-            v-if="selectedArticles.filter(item => item).length > 0">
+            v-if="selectedArticles.filter(item => item).length > 0"
+            cols="6">
             <v-row>
-              <v-btn class="ma-2">Организовать в структуре</v-btn>
-              <v-btn class="ma-2">Поделиться в группе</v-btn>
-              <v-btn class="ma-2">Отправить почту</v-btn>
-              <v-btn class="ma-2">Создать отчет</v-btn>
+              <v-btn
+                class="ma-2"
+                outlined>Организовать в структуре</v-btn>
+              <v-btn
+                class="ma-2"
+                outlined>Поделиться в группе</v-btn>
+              <v-btn
+                class="ma-2"
+                outlined>Отправить почту</v-btn>
+              <v-btn
+                class="ma-2"
+                outlined>Создать отчет</v-btn>
+              <v-btn
+                icon
+                class="ma-2 red--text">
+                <v-icon>mdi-trash-can-outline</v-icon>
+              </v-btn>
               <v-btn
                 icon
                 class="ma-2">
                 <v-icon>mdi-dots-horizontal</v-icon>
               </v-btn>
-              <v-btn
-                icon
-                class="ma-2">
-                <v-icon>mdi-trash-can-outline</v-icon>
-              </v-btn>
             </v-row>
           </v-col>
           <v-col
+            v-else
+            class="ma-5"
+            cols="4">
+            <span class="ma-2 green--text">Щелкните на элемент чтобы выбрать</span>
+          </v-col>
+          <v-spacer v-if="selectedArticles.filter(item => item).length <= 0" />
+          <v-col
             cols="1"
             class="ma-5">
-            <v-btn @click="closeSheet">
+            <v-btn
+              icon
+              class="green--text"
+              @click="closeSheet">
               <v-icon>
                 mdi-close
               </v-icon>
@@ -776,6 +794,13 @@ export default {
     }
   },
   methods: {
+    toggleSheet () {
+      this.sheet = !this.sheet
+      if (!this.sheet) {
+        this.selectedArticles.fill(false)
+      }
+      this.$forceUpdate()
+    },
     updateSuggestions () {
       const val = []
       if (this.autocomplete.length) {
@@ -894,6 +919,7 @@ export default {
         }
         data.append('private', isPrivate)
         data.append('user', '-1')
+        data.append('unreaded', this.isUnreaded)
         await this.$axios.$post('http://localhost:8000/api/bookmark/', data, {
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -995,6 +1021,8 @@ export default {
     },
     closeSheet () {
       this.sheet = !this.sheet
+      this.selectedArticles.fill(false)
+      this.$forceUpdate()
     },
     setItemPerPage (count) {
       this.itemsPerPage = count
