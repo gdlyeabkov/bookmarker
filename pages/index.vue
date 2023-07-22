@@ -8,6 +8,7 @@
 export default {
   mounted () {
     this.$router.push({ path: '/library' })
+    // this.$router.push({ path: '/start' })
   }
 }
 </script>

@@ -1,0 +1,35 @@
+<template>
+  <v-app>
+    <StartHeader />
+    <v-main>
+      <v-container fluid class="full-w non-pad">
+        <Nuxt />
+      </v-container>
+    </v-main>
+    <Footer />
+  </v-app>
+</template>
+
+<script>
+import StartHeader from '@/components/StartHeader.vue'
+import Footer from '@/components/Footer.vue'
+export default {
+  components: {
+    StartHeader,
+    Footer
+  }
+}
+</script>
+<style scoped>
+  .full-w {
+    width: 100%;
+  }
+
+  .non-pad {
+   padding: 0px;
+  }
+
+  .clickable {
+    cursor: pointer;
+  }
+</style>

@@ -69,5 +69,11 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+
+  layouts: {
+    start: '~/layouts/start.vue',
+    empty: '~/layouts/empty.vue',
   }
+
 }

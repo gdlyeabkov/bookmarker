@@ -622,7 +622,8 @@
                 outlined>Создать отчет</v-btn>
               <v-btn
                 icon
-                class="ma-2 red--text">
+                class="ma-2 red--text"
+                @click="removeMuliple">
                 <v-icon>mdi-trash-can-outline</v-icon>
               </v-btn>
               <v-btn
@@ -672,45 +673,50 @@
 import { ref } from 'vue'
 import moment from 'moment'
 export default {
+  layout: 'default',
   async asyncData ({ $axios }) {
-    const response = await $axios.$get('http://localhost:8000/api/bookmarks')
-    const status = response.status
-    const isSuccessfull = status === 'OK'
-    let bookmarks = []
-    // const bookmarks = []
-    if (isSuccessfull) {
-      bookmarks = response.bookmarks.map((bookmark) => {
-        return {
-          id: bookmark.id,
-          title: bookmark.title,
-          url: bookmark.url,
-          tags: [],
-          body: bookmark.body,
-          isUnreaded: false,
-          outliners: [
-            {
-              id: -1,
-              name: 'A'
-            }
-          ],
-          isPrivate: bookmark.isPrivate,
-          date: moment(bookmark.date).locale('ru').format('MMMM D, YYYY')
-        }
-      })
-    }
-    let isLoading = true
-    const selected = []
-    const expanders = []
-    for (let i = 0; i < bookmarks.length; i++) {
-      selected.push(false)
-      expanders.push(false)
-    }
-    isLoading = bookmarks.length <= 0
-    return {
-      isLoading,
-      articles: bookmarks,
-      selectedArticles: selected,
-      articleExpanders: expanders
+    try {
+      const response = await $axios.$get('http://localhost:8000/api/bookmarks')
+      const status = response.status
+      const isSuccessfull = status === 'OK'
+      let bookmarks = []
+      // const bookmarks = []
+      if (isSuccessfull) {
+        bookmarks = response.bookmarks.map((bookmark) => {
+          return {
+            id: bookmark.id,
+            title: bookmark.title,
+            url: bookmark.url,
+            tags: [],
+            body: bookmark.body,
+            isUnreaded: false,
+            outliners: [
+              {
+                id: -1,
+                name: 'A'
+              }
+            ],
+            isPrivate: bookmark.isPrivate,
+            date: moment(bookmark.date).locale('ru').format('MMMM D, YYYY')
+          }
+        })
+      }
+      let isLoading = true
+      const selected = []
+      const expanders = []
+      for (let i = 0; i < bookmarks.length; i++) {
+        selected.push(false)
+        expanders.push(false)
+      }
+      isLoading = bookmarks.length <= 0
+      return {
+        isLoading,
+        articles: bookmarks,
+        selectedArticles: selected,
+        articleExpanders: expanders
+      }
+    } catch (e) {
+      return {}
     }
   },
   setup () {
@@ -794,6 +800,32 @@ export default {
     }
   },
   methods: {
+    async removeMuliple () {
+      try {
+        const selectedIds = []
+        let idx = -1
+        for (const selectedArticle of this.selectedArticles) {
+          idx++
+          if (selectedArticle) {
+            selectedIds.push(this.articles[idx].id)
+          }
+        }
+        const ids = selectedIds.join(',')
+        const data = {}
+        await this.$axios.$delete(`http://localhost:8000/api/bookmarks/?ids=${ids}`, data, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        this.articles = this.articles.filter((article, idx) => !selectedIds.includes(article.id))
+        this.$forceUpdate()
+      } catch (e) {
+        /*
+         *  TODO
+         *  show error
+         */
+      }
+    },
     toggleSheet () {
       this.sheet = !this.sheet
       if (!this.sheet) {
@@ -858,42 +890,46 @@ export default {
     },
     async getArticleContent () {
       this.isLoading = true
-      const response = await this.$axios.$get('http://localhost:8000/api/bookmarks')
-      const status = response.status
-      const isSuccessfull = status === 'OK'
-      let bookmarks = []
-      if (isSuccessfull) {
-        bookmarks = response.bookmarks.map((bookmark) => {
-          return {
-            id: bookmark.id,
-            title: bookmark.title,
-            url: bookmark.url,
-            tags: [],
-            body: bookmark.body,
-            isUnreaded: false,
-            outliners: [
-              {
-                id: -1,
-                name: 'A'
-              }
-            ],
-            isPrivate: bookmark.isPrivate,
-            date: bookmark.date
-          }
+      try {
+        const response = await this.$axios.$get('http://localhost:8000/api/bookmarks')
+        const status = response.status
+        const isSuccessfull = status === 'OK'
+        let bookmarks = []
+        if (isSuccessfull) {
+          bookmarks = response.bookmarks.map((bookmark) => {
+            return {
+              id: bookmark.id,
+              title: bookmark.title,
+              url: bookmark.url,
+              tags: [],
+              body: bookmark.body,
+              isUnreaded: false,
+              outliners: [
+                {
+                  id: -1,
+                  name: 'A'
+                }
+              ],
+              isPrivate: bookmark.isPrivate,
+              date: bookmark.date
+            }
+          })
+        }
+        this.articles = bookmarks.filter((item) => {
+          const title = item.title
+          const isMatch = title.includes(this.autocomplete)
+          return isMatch
         })
+        this.selectedArticles = []
+        this.articleExpanders = []
+        for (let i = 0; i < this.articles.length; i++) {
+          this.selectedArticles.push(false)
+          this.articleExpanders.push(false)
+        }
+        this.isLoading = bookmarks.length <= 0
+      } catch (e) {
+
       }
-      this.articles = bookmarks.filter((item) => {
-        const title = item.title
-        const isMatch = title.includes(this.autocomplete)
-        return isMatch
-      })
-      this.selectedArticles = []
-      this.articleExpanders = []
-      for (let i = 0; i < this.articles.length; i++) {
-        this.selectedArticles.push(false)
-        this.articleExpanders.push(false)
-      }
-      this.isLoading = bookmarks.length <= 0
     },
     async next () {
       const isFirstStep = this.bookmarkAlertStep === 1
@@ -919,7 +955,11 @@ export default {
         }
         data.append('private', isPrivate)
         data.append('user', '-1')
-        data.append('unreaded', this.isUnreaded)
+        let isUnreaded = '0'
+        if (this.readLater) {
+          isUnreaded = '1'
+        }
+        data.append('unreaded', isUnreaded)
         await this.$axios.$post('http://localhost:8000/api/bookmark/', data, {
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -955,7 +995,7 @@ export default {
       /*
        * TODO
        * isShareToOutliner
-       * isShareToGroup
+         * isShareToGroup
        */
       this.isPrivate = article.isPrivate
       this.isUnreaded = article.isUnreaded
@@ -1001,7 +1041,6 @@ export default {
       try {
         await this.$axios.$put(`http://localhost:8000/api/bookmark/mark/?id=${articleId}`, data, {
           headers: {
-            // 'Content-Type': 'application/x-www-form-urlencoded'
             'Content-Type': 'application/json'
           }
         })
