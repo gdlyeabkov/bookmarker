@@ -26,6 +26,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -42,7 +43,8 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -74,6 +76,62 @@ export default {
   layouts: {
     start: '~/layouts/start.vue',
     empty: '~/layouts/empty.vue',
+  },
+
+  auth: {
+    strategies: {
+      microsoft: {
+        scheme: 'oauth2',
+        endpoints: {
+          authorization: 'https://login.microsoftonline.com/{tenant}/oauth2/v2.0/authorize',
+          token: 'https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token',
+          userInfo: 'https://graph.microsoft.com/v1.0/me'
+        },
+        token: {
+          maxAge: 3600
+        },
+        responseType: 'code',
+        grantType: 'authorization_code',
+        accessType: 'offline',
+        clientId: '',
+        clientSecret: '',
+        scope: ['user.read'],
+        tenant: '{tenant}'
+      },
+      google: {
+        scheme: 'oauth2',
+        endpoints: {
+          authorization: 'https://accounts.google.com/o/oauth2/auth',
+          token: 'https://accounts.google.com/o/oauth2/token',
+          userInfo: 'https://www.googleapis.com/oauth2/v1/userinfo'
+        },
+        token: {
+          maxAge: 3600
+        },
+        responseType: 'code',
+        codeChallengeMethod: '',
+        accessType: 'offline',
+        clientId: '232784374419-emlqb07ueihkeemnjqtj0jkgpnjqkkuu.apps.googleusercontent.com',
+        clientSecret: '',
+        scope: ['profile', 'email'],
+        redirect_uri: 'http://localhost:3000/library'
+      },
+      facebook: {
+        scheme: 'oauth2',
+        endpoints: {
+          authorization: 'https://www.facebook.com/dialog/oauth',
+          token: 'https://graph.facebook.com/v11.0/oauth/access_token',
+          userInfo: 'https://graph.facebook.com/v11.0/me?fields=about,name,picture{url}'
+        },
+        token: {
+          maxAge: 3600
+        },
+        responseType: 'code',
+        clientId: '',
+        clientSecret: '',
+        scope: ['public_profile', 'email']
+      }
+    }
   }
 
 }

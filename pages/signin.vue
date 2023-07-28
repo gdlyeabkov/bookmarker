@@ -13,22 +13,31 @@
         <v-form>
           <p>Войти в diigo</p>
           <v-text-field
+            v-model="email"
             placeholder="User name or email address" />
           <v-text-field
+            v-model="pass"
             placeholder="Password" />
           <v-row>
             <v-col>
               <v-btn
                 color="blue"
-                class="white--text">Войти</v-btn>
+                class="white--text"
+                @click="signIn()">Войти</v-btn>
             </v-col>
             <v-col>
               <p>Забыли пароль?</p>
             </v-col>
           </v-row>
           <p>Войдите через другие аккаунты</p>
-          <v-btn class="my-2" width="100%">Google</v-btn>
-          <v-btn class="my-2" width="100%">Facebook</v-btn>
+          <v-btn
+            class="my-2"
+            width="100%"
+            @click="signIn('google')">Google</v-btn>
+          <v-btn
+            class="my-2"
+            width="100%"
+            @click="signIn('facebook')">Facebook</v-btn>
         </v-form>
       </v-col>
     </v-row>
@@ -36,8 +45,39 @@
   </v-container>
 </template>
 <script>
+import { ref } from 'vue'
 export default {
-  layout: 'empty'
+  layout: 'empty',
+  setup () {
+    const email = ref('')
+    const pass = ref('')
+    return {
+      email,
+      pass
+    }
+  },
+  methods: {
+    async signIn (service = null) {
+      if (service) {
+        this.$auth.loginWith('google')
+      } else {
+        const data = new FormData()
+        data.append('email', this.email)
+        data.append('pass', this.pass)
+        try {
+          const response = await this.$axios.$post('http://localhost:8000/api/user/login', data, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          })
+          console.log(response)
+          // this.$router.push({ name: 'library', query: { id: response.id } })
+        } catch (e) {
+          alert('error')
+        }
+      }
+    }
+  }
 }
 </script>
 <style>

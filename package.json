@@ -12,10 +12,12 @@
     "test": "jest"
   },
   "dependencies": {
+    "@nuxtjs/auth-next": "5.0.0-1667386184.dfbbb54",
     "@nuxtjs/axios": "^5.13.6",
     "core-js": "^3.15.1",
     "moment": "^2.29.4",
     "nuxt": "^2.15.7",
+    "vue-google-oauth2": "^1.5.10",
     "vuetify": "^2.5.5"
   },
   "devDependencies": {

@@ -18,13 +18,32 @@
       border
       flat
       elevation="0"
-      :rounded="true">Зарегистрироваться</v-btn>
+      rounded
+      @click="signUp">Зарегистрироваться</v-btn>
   </v-app-bar>
 </template>
 
 <script>
 export default {
   methods: {
+    async signUp () {
+      const data = new FormData()
+      data.append('email', 'test@example.com')
+      data.append('pass', 'password')
+      data.append('name', 'test')
+      data.append('age', 5)
+      data.append('gender', 'test')
+      try {
+        const response = await this.$axios.$post('http://localhost:8000/api/user/', data, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        this.$router.push({ name: 'library', query: { id: response.id } })
+      } catch (e) {
+        alert('error')
+      }
+    },
     switchScreen (screen) {
       this.$router.push(screen)
     },
