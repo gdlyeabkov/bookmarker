@@ -16,6 +16,7 @@
             v-model="email"
             placeholder="User name or email address" />
           <v-text-field
+            type="password"
             v-model="pass"
             placeholder="Password" />
           <v-row>
@@ -46,6 +47,7 @@
 </template>
 <script>
 import { ref } from 'vue'
+import { mapActions } from 'vuex'
 export default {
   layout: 'empty',
   setup () {
@@ -57,6 +59,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'setUser'
+    ]),
     async signIn (service = null) {
       if (service) {
         this.$auth.loginWith('google')
@@ -71,7 +76,15 @@ export default {
             }
           })
           console.log(response)
-          // this.$router.push({ name: 'library', query: { id: response.id } })
+          const user = response.user
+          if (user) {
+            if (user.id > -1) {
+              this.setUser(user)
+              this.$router.push({ name: 'library', query: { id: response.id } })
+            }
+          } else {
+            alert('User with provided credentials is not found.')
+          }
         } catch (e) {
           alert('error')
         }

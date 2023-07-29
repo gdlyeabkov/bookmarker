@@ -799,6 +799,14 @@ export default {
       body
     }
   },
+  computed: {
+    user () {
+      return this.$store.state.user
+    }
+  },
+  mounted () {
+    alert(JSON.stringify(this.user))
+  },
   methods: {
     async removeMuliple () {
       try {
@@ -954,7 +962,7 @@ export default {
           isPrivate = '1'
         }
         data.append('private', isPrivate)
-        data.append('user', '-1')
+        data.append('user', this.user.id)
         let isUnreaded = '0'
         if (this.readLater) {
           isUnreaded = '1'

@@ -39,7 +39,9 @@ export default {
             'Content-Type': 'multipart/form-data'
           }
         })
-        this.$router.push({ name: 'library', query: { id: response.id } })
+        const user = response.user
+        this.SET_USER(user)
+        this.$router.push({ name: 'library', query: { id: user.id } })
       } catch (e) {
         alert('error')
       }
