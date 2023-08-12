@@ -10,12 +10,14 @@
         class="mx-5"
         vertical />
       <v-col>
-        <v-form>
+        <v-form ref="form">
           <p>Войти в diigo</p>
           <v-text-field
+            :rules="emailRules"
             v-model="email"
             placeholder="User name or email address" />
           <v-text-field
+            :rules="passwordRules"
             type="password"
             v-model="pass"
             placeholder="Password" />
@@ -53,9 +55,17 @@ export default {
   setup () {
     const email = ref('')
     const pass = ref('')
+    const emailRules = ref([
+      v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+    ])
+    const passwordRules = ref([
+      v => /^.........*$/.test(v) || 'Password must be valid'
+    ])
     return {
       email,
-      pass
+      pass,
+      emailRules,
+      passwordRules
     }
   },
   methods: {
@@ -66,27 +76,32 @@ export default {
       if (service) {
         this.$auth.loginWith('google')
       } else {
-        const data = new FormData()
-        data.append('email', this.email)
-        data.append('pass', this.pass)
-        try {
-          const response = await this.$axios.$post('http://localhost:8000/api/user/login', data, {
-            headers: {
-              'Content-Type': 'multipart/form-data'
+        // TODO
+        const form = this.$refs.form
+        const isValid = form.validate()
+        if (isValid) {
+          const data = new FormData()
+          data.append('email', this.email)
+          data.append('pass', this.pass)
+          try {
+            const response = await this.$axios.$post('http://localhost:8000/api/user/login', data, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            })
+            console.log(response)
+            const user = response.user
+            if (user) {
+              if (user.id > -1) {
+                this.setUser(user)
+                this.$router.push({ name: 'library', query: { id: response.id } })
+              }
+            } else {
+              alert('User with provided credentials is not found.')
             }
-          })
-          console.log(response)
-          const user = response.user
-          if (user) {
-            if (user.id > -1) {
-              this.setUser(user)
-              this.$router.push({ name: 'library', query: { id: response.id } })
-            }
-          } else {
-            alert('User with provided credentials is not found.')
+          } catch (e) {
+            alert('error')
           }
-        } catch (e) {
-          alert('error')
         }
       }
     }

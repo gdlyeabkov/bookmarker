@@ -120,7 +120,9 @@
       <v-col
         cols="3"
         class="ma-5">
-        <v-row>
+        <v-row
+          class="clickable"
+          @click="getAllArticles">
           <v-col>
             <v-icon class="mx-3">mdi-cube-outline</v-icon>
             <span>Все</span>
@@ -135,7 +137,9 @@
             <span>Аннотации</span>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row
+          class="clickable"
+          @click="getUnreadArticles">
           <v-col>
             <v-icon class="mx-3">mdi-circle</v-icon>
             <span>Непрочитанное</span>
@@ -210,7 +214,7 @@
                     </v-col>
                   </v-row>
                   <v-row>
-                    <v-col cols="3">
+                    <v-col cols="3" class="overflow-hidden">
                       <a :href="article.url">{{article.url}}</a>
                     </v-col>
                     <v-chip-group
@@ -226,9 +230,21 @@
                       v-else
                       cols="2">
                         <v-chip
+                          v-if="!isAddTag[articleIdx]"
                           class="clickable"
                           label
-                          @click="addTag">+ Тэг</v-chip>
+                          @click="toggleTag(articleIdx)">+ Тэг</v-chip>
+                        <v-row v-else>
+                          <v-col>
+                            <v-text-field />
+                          </v-col>
+                          <v-col>
+                            <v-icon @click="toggleTag(articleIdx)">mdi-check</v-icon>
+                          </v-col>
+                          <v-col>
+                            <v-icon @click="toggleTag(articleIdx)">mdi-close</v-icon>
+                          </v-col>
+                        </v-row>
                       </v-col>
                   </v-row>
                   <p v-if="article.outliners.length">В <span class="font-weight-bold">структуре</span>: {{getArticleOutliners(article)}}</p>
@@ -673,7 +689,7 @@
 import { ref } from 'vue'
 import moment from 'moment'
 export default {
-  layout: 'default',
+  layout: 'personal',
   async asyncData ({ $axios }) {
     try {
       const response = await $axios.$get('http://localhost:8000/api/bookmarks')
@@ -758,6 +774,7 @@ export default {
     const autocomplete = ref('')
     const suggestions = ref([])
     const body = ref('_')
+    const isAddTag = ref([])
     return {
       fab,
       isLoading,
@@ -796,7 +813,8 @@ export default {
       autocomplete,
       suggestions,
       isAddBookmarkLoading,
-      body
+      body,
+      isAddTag
     }
   },
   computed: {
@@ -804,10 +822,12 @@ export default {
       return this.$store.state.user
     }
   },
-  mounted () {
-    alert(JSON.stringify(this.user))
-  },
   methods: {
+    getAllArticles () {
+    },
+    getUnreadArticles () {
+      this.articles = this.articles.filter(article => article.isUnreaded)
+    },
     async removeMuliple () {
       try {
         const selectedIds = []
@@ -1090,8 +1110,9 @@ export default {
       this.selectedArticles.fill(true)
       this.$forceUpdate()
     },
-    addTag () {
-      alert('addTag')
+    toggleTag (index) {
+      this.isAddTag[index] = !this.isAddTag[index]
+      this.$forceUpdate()
     },
     toggleExpanders () {
       if (this.articleExpanders.length) {

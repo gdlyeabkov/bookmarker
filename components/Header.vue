@@ -18,7 +18,7 @@
     <v-avatar color="info" size="24">
       <v-img src="https://resources.diigo.com/images/avatar/user/nickfish2020_96.jpg?rand=863" />
     </v-avatar>
-    <v-btn class="text-capitalize" color="transparent" elevation="0">аккаунт</v-btn>
+    <v-btn class="text-capitalize" color="transparent" elevation="0">{{getEmail}}</v-btn>
     <v-menu>
       <template v-slot:activator="{ on, attrs }">
         <v-btn
@@ -54,6 +54,17 @@
 
 <script>
 export default {
+  computed: {
+    user () {
+      return this.$store.state.user
+    },
+    getEmail () {
+      if (this.user) {
+        return this.user.email
+      }
+      return ''
+    }
+  },
   methods: {
     switchScreen (screen) {
       this.$router.push(screen)

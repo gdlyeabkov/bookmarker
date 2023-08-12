@@ -6,9 +6,19 @@
 </template>
 <script>
 export default {
-  mounted () {
-    // this.$router.push({ path: '/library' })
-    this.$router.push({ path: '/start' })
+  async mounted () {
+    try {
+      const response = await this.$axios.$get('http://localhost:8000/api/user/token')
+      const user = response.user
+      if (user) {
+        await this.setUser(user)
+        this.$router.push({ path: '/library' })
+      } else {
+        this.$router.push({ path: '/start' })
+      }
+    } catch (e) {
+
+    }
   }
 }
 </script>
