@@ -1,8 +1,14 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-    </v-col>
-  </v-row>
+  <v-container class="h-100">
+    <v-row
+      justify="center"
+      align="center"
+      class="h-100">
+        <v-progress-circular
+          indeterminate
+          size="128"  />
+    </v-row>
+  </v-container>
 </template>
 <script>
 export default {
