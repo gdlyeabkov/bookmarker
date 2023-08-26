@@ -24,8 +24,10 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   methods: {
+    ...mapActions(['SET_USER']),
     async signUp () {
       const data = new FormData()
       data.append('email', 'test@example.com')
@@ -40,8 +42,12 @@ export default {
           }
         })
         const user = response.user
-        this.SET_USER(user)
-        this.$router.push({ name: 'library', query: { id: user.id } })
+        if (user) {
+          this.SET_USER(user)
+          this.$router.push({ name: 'library', query: { id: user.id } })
+        } else {
+          alert('error')
+        }
       } catch (e) {
         alert('error')
       }

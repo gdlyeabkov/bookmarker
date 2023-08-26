@@ -247,7 +247,7 @@
                         </v-row>
                       </v-col>
                   </v-row>
-                  <p v-if="article.outliners.length">В <span class="font-weight-bold">структуре</span>: {{getArticleOutliners(article)}}</p>
+                  <p v-if="isHaveOutliners(article)">В <span class="font-weight-bold">структуре</span>: {{getArticleOutliners(article)}}</p>
                 </v-col>
                 <v-col cols="4">
                   <v-row>
@@ -426,7 +426,8 @@
             variant="text"
             @click="next"
             color="#0000FF"
-            class="white--text">
+            class="white--text"
+            :disabled="isAddBookmarkLoading">
             <v-progress-circular
               v-if="isAddBookmarkLoading"
               indeterminate
@@ -824,6 +825,15 @@ export default {
   },
   methods: {
     getAllArticles () {
+
+    },
+    isHaveOutliners (article) {
+      let isHave = false
+      const articleOutliners = article.outliners
+      if (articleOutliners) {
+        isHave = articleOutliners.length
+      }
+      return isHave
     },
     getUnreadArticles () {
       this.articles = this.articles.filter(article => article.isUnreaded)
