@@ -234,14 +234,17 @@
                           class="clickable"
                           label
                           @click="toggleTag(articleIdx)">+ Тэг</v-chip>
-                        <v-row v-else>
-                          <v-col>
-                            <v-text-field />
+                        <v-row
+                          v-else
+                          dense
+                          no-gutters>
+                          <v-col class="ma-0 pa-0">
+                            <v-text-field class="ma-0 pa-0" dense />
                           </v-col>
-                          <v-col>
+                          <v-col class="ma-0 pa-0">
                             <v-icon @click="toggleTag(articleIdx)">mdi-check</v-icon>
                           </v-col>
-                          <v-col>
+                          <v-col class="ma-0 pa-0">
                             <v-icon @click="toggleTag(articleIdx)">mdi-close</v-icon>
                           </v-col>
                         </v-row>

@@ -56,10 +56,10 @@ export default {
     const email = ref('')
     const pass = ref('')
     const emailRules = ref([
-      v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+      v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail введен не корректно'
     ])
     const passwordRules = ref([
-      v => /^.........*$/.test(v) || 'Password must be valid'
+      v => /^.........*$/.test(v) || 'Пароль введен не корректно'
     ])
     return {
       email,
