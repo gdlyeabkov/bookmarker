@@ -527,13 +527,27 @@
         </v-toolbar>
         <v-card-text>
           <v-text-field
-            :value="to"
-            placeholder="Используте Enter для добавления нескольких E-mail" />
+            v-model="to"
+            placeholder="Используте Enter для добавления нескольких E-mail"
+            @keydown.enter="addEmail">
+            <template v-slot:prepend-inner>
+              <v-chip-group column>
+                <v-chip
+                  v-for="(email, index) in emails"
+                  :key="index"
+                  class="ma-1"
+                  close
+                  v-model="emailVals[index]">
+                  {{email}}
+                </v-chip>
+              </v-chip-group>
+            </template>
+          </v-text-field>
           <v-text-field
-            :value="subject"
+            v-model="subject"
             placeholder="Тема" />
           <v-textarea
-            :value="msg"
+            v-model="msg"
             placeholder="Сообщение" />
           <v-row class="d-flex justify-end">
             <v-btn
@@ -779,6 +793,8 @@ export default {
     const suggestions = ref([])
     const body = ref('_')
     const isAddTag = ref([])
+    const emails = ref([])
+    const emailVals = ref([])
     return {
       fab,
       isLoading,
@@ -818,7 +834,9 @@ export default {
       suggestions,
       isAddBookmarkLoading,
       body,
-      isAddTag
+      isAddTag,
+      emails,
+      emailVals
     }
   },
   computed: {
@@ -827,6 +845,11 @@ export default {
     }
   },
   methods: {
+    addEmail () {
+      this.emails.push(this.to)
+      this.emailVals.push(this.to)
+      this.to = ''
+    },
     getAllArticles () {
 
     },
@@ -1188,6 +1211,7 @@ export default {
       this.subject = ''
       this.msg = ''
       this.markup = ''
+      this.emails = []
     }
   }
 }
