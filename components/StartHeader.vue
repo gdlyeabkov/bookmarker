@@ -16,7 +16,7 @@
     <v-btn
       class="text-capitalize mx-4"
       border
-      flat
+      text
       elevation="0"
       rounded
       @click="signUp">Зарегистрироваться</v-btn>
@@ -28,29 +28,8 @@ import { mapActions } from 'vuex'
 export default {
   methods: {
     ...mapActions(['SET_USER']),
-    async signUp () {
-      const data = new FormData()
-      data.append('email', 'test@example.com')
-      data.append('pass', 'password')
-      data.append('name', 'test')
-      data.append('age', 5)
-      data.append('gender', 'test')
-      try {
-        const response = await this.$axios.$post('http://localhost:8000/api/user/', data, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        })
-        const user = response.user
-        if (user) {
-          this.SET_USER(user)
-          this.$router.push({ name: 'library', query: { id: user.id } })
-        } else {
-          alert('error')
-        }
-      } catch (e) {
-        alert('error')
-      }
+    signUp () {
+      this.$router.push({ name: 'signup' })
     },
     switchScreen (screen) {
       this.$router.push(screen)

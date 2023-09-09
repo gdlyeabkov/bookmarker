@@ -453,7 +453,7 @@
         <v-toolbar
           color="primary">
           <v-toolbar-title>
-            <p class="text-capitalize mx-2">Редактировать элемент</p>
+            <p class="mx-2">Редактировать элемент</p>
           </v-toolbar-title>
           <v-spacer />
           <v-icon @click="closeEditAlert">
@@ -485,7 +485,7 @@
         <v-toolbar
           color="primary">
           <v-toolbar-title>
-            <p class="text-capitalize mx-2">Поделиться страницей</p>
+            <p class="mx-2">Поделиться страницей</p>
           </v-toolbar-title>
           <v-spacer />
           <v-icon @click="closeShareLinkAlert">
@@ -518,7 +518,7 @@
         <v-toolbar
           color="primary">
           <v-toolbar-title>
-            <p class="text-capitalize mx-2">Отправить на почту</p>
+            <p class="text-transform-unset mx-2">Отправить на почту</p>
           </v-toolbar-title>
           <v-spacer />
           <v-icon @click="closeSendEmailAlert">
@@ -537,7 +537,8 @@
                   :key="index"
                   class="ma-1"
                   close
-                  v-model="emailVals[index]">
+                  v-model="emailVals[index]"
+                  @click:close="removeEmail(index)">
                   {{email}}
                 </v-chip>
               </v-chip-group>
@@ -569,7 +570,7 @@
         <v-toolbar
           color="primary">
           <v-toolbar-title>
-            <p class="text-capitalize mx-2">Добавить элемент в структуру</p>
+            <p class="mx-2">Добавить элемент в структуру</p>
           </v-toolbar-title>
           <v-spacer />
           <v-icon @click="closeAddToOutlinerAlert">
@@ -597,7 +598,7 @@
         <v-toolbar
           color="primary">
           <v-toolbar-title>
-            <p class="text-capitalize mx-2">Добавить элемент в группу</p>
+            <p class="mx-2">Добавить элемент в группу</p>
           </v-toolbar-title>
           <v-spacer />
           <v-icon @click="closeShareToGroupAlert">
@@ -844,7 +845,23 @@ export default {
       return this.$store.state.user
     }
   },
+  watch: {
+    sendEmailDialog (val) {
+      if (!val) {
+        this.to = ''
+        this.subject = ''
+        this.msg = ''
+        this.markup = ''
+        this.emails = []
+      }
+    }
+  },
   methods: {
+    removeEmail (index) {
+      this.emailVals = this.emailVals.filter((val, i) => index !== i)
+      this.emails = this.emails.filter((val, i) => index !== i)
+      this.$forceUpdate()
+    },
     addEmail () {
       this.emails.push(this.to)
       this.emailVals.push(this.to)
@@ -1207,11 +1224,6 @@ export default {
     },
     closeSendEmailAlert () {
       this.sendEmailDialog = false
-      this.to = ''
-      this.subject = ''
-      this.msg = ''
-      this.markup = ''
-      this.emails = []
     }
   }
 }

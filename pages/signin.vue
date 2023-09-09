@@ -44,7 +44,7 @@
         </v-form>
       </v-col>
     </v-row>
-    <p class="text-center">У вас еще нет Diggo аккаунта? <span class="blue--text">Создайте Diigo аккаунт сейчас</span></p>
+    <p class="text-center">У вас еще нет Diggo аккаунта? <nuxt-link to="signup" class="clickable blue--text">Создайте Diigo аккаунт сейчас</nuxt-link></p>
   </v-container>
 </template>
 <script>
