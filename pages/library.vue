@@ -715,7 +715,6 @@ export default {
       const status = response.status
       const isSuccessfull = status === 'OK'
       let bookmarks = []
-      // const bookmarks = []
       if (isSuccessfull) {
         bookmarks = response.bookmarks.map((bookmark) => {
           return {
@@ -867,8 +866,48 @@ export default {
       this.emailVals.push(this.to)
       this.to = ''
     },
-    getAllArticles () {
-
+    async getAllArticles () {
+      await this.getArticles()
+    },
+    async getArticles (isUnreaded = null) {
+      this.isLoading = true
+      try {
+        const response = await this.$axios.$get(`http://localhost:8000/api/bookmarks/?${isUnreaded ? 'unreaded=true' : ''}`)
+        const status = response.status
+        const isSuccessfull = status === 'OK'
+        let bookmarks = []
+        if (isSuccessfull) {
+          bookmarks = response.bookmarks.map((bookmark) => {
+            return {
+              id: bookmark.id,
+              title: bookmark.title,
+              url: bookmark.url,
+              tags: [],
+              body: bookmark.body,
+              isUnreaded: false,
+              outliners: [
+                {
+                  id: -1,
+                  name: 'A'
+                }
+              ],
+              isPrivate: bookmark.isPrivate,
+              date: moment(bookmark.date).locale('ru').format('MMMM D, YYYY')
+            }
+          })
+        }
+        const selected = []
+        const expanders = []
+        for (let i = 0; i < bookmarks.length; i++) {
+          selected.push(false)
+          expanders.push(false)
+        }
+        this.isLoading = bookmarks.length <= 0
+        this.articles = bookmarks
+        this.selectedArticles = selected
+        this.articleExpanders = expanders
+      } catch (e) {
+      }
     },
     isHaveOutliners (article) {
       let isHave = false
@@ -878,8 +917,8 @@ export default {
       }
       return isHave
     },
-    getUnreadArticles () {
-      this.articles = this.articles.filter(article => article.isUnreaded)
+    async getUnreadArticles () {
+      await this.getArticles(true)
     },
     async removeMuliple () {
       try {

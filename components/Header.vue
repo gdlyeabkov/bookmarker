@@ -18,7 +18,7 @@
     <v-avatar color="info" size="24">
       <v-img src="https://resources.diigo.com/images/avatar/user/nickfish2020_96.jpg?rand=863" />
     </v-avatar>
-    <v-btn class="text-capitalize" color="transparent" elevation="0">{{getEmail}}</v-btn>
+    <v-btn class="text-capitalize header__profile-btn" color="transparent" elevation="0" :style="'text-transform: unset !important;'">{{getEmail}}</v-btn>
     <v-menu>
       <template v-slot:activator="{ on, attrs }">
         <v-btn
@@ -77,5 +77,7 @@ export default {
 </script>
 
 <style>
-
+>>> .v-btn {
+  text-transform: unset !important;
+}
 </style>
