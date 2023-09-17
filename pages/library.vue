@@ -9,14 +9,30 @@
         <v-btn class="text-capitalize mx-2" color="transparent" elevation="0">Моя библиотека</v-btn>
       </v-toolbar-title>
       <v-col cols="2">
-        <v-autocomplete
+        <!-- <v-autocomplete
           clearable
-          append-icon="mdi-magnify"
           label="Поиск..."
           v-model="autocomplete"
+          search
+          ref="autocomplete"
           :items="suggestions"
-          hide-no-data
-          @click:append="getArticleContent" />
+          hide-no-data>
+          <template #append>
+            <v-icon
+              color="rgb(25, 118, 210)"
+              @click="getArticleContent">mdi-magnify</v-icon>
+          </template>
+        </v-autocomplete> -->
+        <v-combobox
+          v-model="autocomplete"
+          label="Поиск..."
+          :items="suggestions">
+          <template #append>
+            <v-icon
+              color="rgb(25, 118, 210)"
+              @click="getArticleContent">mdi-magnify</v-icon>
+          </template>
+        </v-combobox>
       </v-col>
       <v-spacer />
       <v-btn
@@ -418,8 +434,16 @@
             <v-text-field v-model="title" placeholder="Название" />
             <v-text-field v-model="desc" placeholder="Описание" />
             <v-text-field v-model="tags" placeholder="Тэги" />
-            <v-select v-model="shareToOutliner" placeholder="Поделиться в иерархии" />
-            <v-select v-model="shareToGroup" placeholder="Поделиться в группе" />
+            <v-select v-model="shareToOutliner" placeholder="Поделиться в иерархии">
+              <template #no-data>
+                <p class="ma-3">Вы еще не добавили ни одной иерархии.</p>
+              </template>
+            </v-select>
+            <v-select v-model="shareToGroup" placeholder="Поделиться в группе">
+              <template #no-data>
+                <p class="ma-3">Вы еще не добавили ни одной группы.</p>
+              </template>
+            </v-select>
             <v-checkbox v-model="isPrivate" label="Приватный" />
             <v-checkbox v-model="readLater" label="Читать позже" />
           </div>
@@ -743,11 +767,13 @@ export default {
         expanders.push(false)
       }
       isLoading = bookmarks.length <= 0
+      const suggestions = bookmarks.map(bookmark => bookmark.title)
       return {
         isLoading,
         articles: bookmarks,
         selectedArticles: selected,
-        articleExpanders: expanders
+        articleExpanders: expanders,
+        suggestions
       }
     } catch (e) {
       return {}
@@ -939,6 +965,7 @@ export default {
         })
         this.articles = this.articles.filter((article, idx) => !selectedIds.includes(article.id))
         this.$forceUpdate()
+        await this.getAllArticles()
       } catch (e) {
         /*
          *  TODO
@@ -1009,6 +1036,7 @@ export default {
       this.readLater = false
     },
     async getArticleContent () {
+      alert(this.autocomplete)
       this.isLoading = true
       try {
         const response = await this.$axios.$get('http://localhost:8000/api/bookmarks')
@@ -1064,6 +1092,7 @@ export default {
           this.bookmarkAlertStep = 2
         }, 5000)
       } else if (isSecondStep) {
+        this.isAddBookmarkLoading = true
         const data = new FormData()
         data.append('url', this.url)
         data.append('title', this.title)
@@ -1105,6 +1134,7 @@ export default {
         this.tags = ''
         this.desc = ''
         this.readLater = ''
+        this.isAddBookmarkLoading = false
       }
     },
     edit (article, idx) {
