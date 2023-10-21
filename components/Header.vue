@@ -10,9 +10,9 @@
         width="75" />
     </v-app-bar-title>
     <v-btn class="text-capitalize mx-2" color="transparent" elevation="0" @click="switchScreen('library')">Моя библиотека</v-btn>
-    <v-btn class="text-capitalize mx-2" color="transparent" elevation="0" @click="switchScreen('outliners')">Мои структуры</v-btn>
-    <v-btn class="text-capitalize mx-2" color="transparent" elevation="0" @click="switchScreen('groups')">Мои группы</v-btn>
-    <v-btn class="text-capitalize mx-2" color="transparent" elevation="0" @click="switchScreen('tools')">Инструменты</v-btn>
+    <v-btn v-if="false" class="text-capitalize mx-2" color="transparent" elevation="0" @click="switchScreen('outliners')">Мои структуры</v-btn>
+    <v-btn v-if="false" class="text-capitalize mx-2" color="transparent" elevation="0" @click="switchScreen('groups')">Мои группы</v-btn>
+    <v-btn v-if="false" class="text-capitalize mx-2" color="transparent" elevation="0" @click="switchScreen('tools')">Инструменты</v-btn>
     <v-spacer />
     <v-btn class="text-capitalize mx-4" color="orange" :rounded="true">Улучшить</v-btn>
     <v-avatar color="info" size="24">

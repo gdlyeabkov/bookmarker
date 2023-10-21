@@ -731,11 +731,19 @@
 <script>
 import { ref } from 'vue'
 import moment from 'moment'
+import { mapActions } from 'vuex'
 export default {
   layout: 'personal',
-  async asyncData ({ $axios }) {
+  async asyncData ({ $axios, $store }) {
     try {
-      const response = await $axios.$get('http://localhost:8000/api/bookmarks')
+      // $axios.setHeader('Authorization', '#')
+      // const response = await $axios.$get('http://localhost:8000/api/bookmarks')
+      console.log(`$store.state.token: ${$store.state.token}`)
+      const response = await $axios.$get('http://localhost:8000/api/bookmarks', {
+        headers: {
+          Authorization: $store.state.token
+        }
+      })
       const status = response.status
       const isSuccessfull = status === 'OK'
       let bookmarks = []
@@ -868,6 +876,9 @@ export default {
   computed: {
     user () {
       return this.$store.state.user
+    },
+    token () {
+      return this.$store.state.token
     }
   },
   watch: {
@@ -881,7 +892,29 @@ export default {
       }
     }
   },
+  async mounted () {
+    // const id = sessionStorage.getItem('user')
+    try {
+      // const response = await this.$axios.$get(`http://localhost:8000/api/user/token/?id=${id}`)
+      // alert(this.token)
+      const response = await this.$axios.$get('http://localhost:8000/api/user/token', {
+        headers: {
+          Authorization: this.token
+        }
+      })
+      const user = response.user
+      if (user) {
+        await this.setUser(user)
+        this.getArticles()
+      } else {
+        this.$router.push({ path: '/start' })
+      }
+    } catch (e) {}
+  },
   methods: {
+    ...mapActions([
+      'setUser'
+    ]),
     removeEmail (index) {
       this.emailVals = this.emailVals.filter((val, i) => index !== i)
       this.emails = this.emails.filter((val, i) => index !== i)
@@ -898,7 +931,13 @@ export default {
     async getArticles (isUnreaded = null) {
       this.isLoading = true
       try {
-        const response = await this.$axios.$get(`http://localhost:8000/api/bookmarks/?${isUnreaded ? 'unreaded=true' : ''}`)
+        // this.$axios.setHeader('Authorization', this.token)
+        // const response = await this.$axios.$get(`http://localhost:8000/api/bookmarks/?${isUnreaded ? 'unreaded=true' : ''}`)
+        const response = await this.$axios.$get(`http://localhost:8000/api/bookmarks/?${isUnreaded ? 'unreaded=true' : ''}`, {
+          headers: {
+            Authorization: this.token
+          }
+        })
         const status = response.status
         const isSuccessfull = status === 'OK'
         let bookmarks = []
@@ -1036,7 +1075,6 @@ export default {
       this.readLater = false
     },
     async getArticleContent () {
-      alert(this.autocomplete)
       this.isLoading = true
       try {
         const response = await this.$axios.$get('http://localhost:8000/api/bookmarks')

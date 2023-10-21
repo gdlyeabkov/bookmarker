@@ -6,17 +6,14 @@
         <Nuxt />
       </v-container>
     </v-main>
-    <Footer />
   </v-app>
 </template>
 
 <script>
 import StartHeader from '@/components/StartHeader.vue'
-import Footer from '@/components/Footer.vue'
 export default {
   components: {
-    StartHeader,
-    Footer
+    StartHeader
   }
 }
 </script>

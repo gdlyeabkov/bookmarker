@@ -15,12 +15,12 @@
           <v-text-field
             :rules="emailRules"
             v-model="email"
-            placeholder="User name or email address" />
+            placeholder="Имя пользователя или E-mail" />
           <v-text-field
             :rules="passwordRules"
             type="password"
             v-model="pass"
-            placeholder="Password" />
+            placeholder="Пароль" />
           <v-row>
             <v-col>
               <v-btn
@@ -70,7 +70,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      'setUser'
+      'setUser',
+      'setToken'
     ]),
     async signIn (service = null) {
       if (service) {
@@ -91,10 +92,15 @@ export default {
             })
             console.log(response)
             const user = response.user
+            const token = response.token
             if (user) {
               if (user.id > -1) {
-                this.setUser(user)
-                this.$router.push({ name: 'library', query: { id: response.id } })
+                await this.setUser(user)
+                await this.setToken(token)
+                // sessionStorage.setItem('user', user.id)
+                localStorage.setItem('token', response.token)
+                // this.$router.push({ name: 'library', query: { id: user.id } })
+                this.$router.push({ name: 'library' })
               }
             } else {
               alert('User with provided credentials is not found.')

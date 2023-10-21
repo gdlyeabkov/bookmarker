@@ -15,30 +15,30 @@
           <v-text-field
             :rules="emailRules"
             v-model="email"
-            placeholder="User name or email address" />
+            placeholder="Имя пользователя или E-mail" />
           <v-text-field
             :rules="passwordRules"
             type="password"
             v-model="pass"
-            placeholder="Password" />
+            placeholder="Пароль" />
           <v-text-field
             :rules="passwordRules"
             type="password"
             v-model="confirmPass"
-            placeholder="Confirm password" />
+            placeholder="Подтвердите пароль" />
           <v-text-field
             type="text"
             v-model="name"
-            placeholder="Name" />
+            placeholder="Имя" />
           <v-text-field
             type="number"
             v-model="age"
             min="0"
-            placeholder="Age" />
+            placeholder="Возраст" />
           <v-select
             v-model="gender"
             :items="genderVariants"
-            placeholder="Gender" />
+            placeholder="Пол" />
           <v-row>
             <v-col>
               <v-btn
@@ -72,8 +72,8 @@ export default {
     const age = ref('')
     const gender = ref('')
     const genderVariants = ref([
-      'Male',
-      'Female'
+      'Мужской',
+      'Женский'
     ])
     return {
       email,

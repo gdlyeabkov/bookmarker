@@ -1,17 +1,15 @@
 <template>
   <v-app-bar
     elevation="0"
-    fixed
-    app
-    color="transparent">
+    color="#fff">
     <v-app-bar-title>
       <img
         src="https://www.diigo.com/images/v6/diigologolarge.png"
         width="75" />
     </v-app-bar-title>
     <v-spacer />
-    <v-btn class="text-capitalize mx-2 blue--text" color="transparent" elevation="0" @click="switchScreen('library')">Загрузки</v-btn>
-    <v-btn class="text-capitalize mx-2" color="transparent" elevation="0" @click="switchScreen('library')">Блог</v-btn>
+    <v-btn v-if="false" class="text-capitalize mx-2 blue--text" color="transparent" elevation="0" @click="switchScreen('library')">Загрузки</v-btn>
+    <v-btn v-if="false" class="text-capitalize mx-2" color="transparent" elevation="0" @click="switchScreen('library')">Блог</v-btn>
     <v-btn class="text-capitalize mx-2" color="transparent" elevation="0" @click="switchScreen('signin')">Войти</v-btn>
     <v-btn
       class="text-capitalize mx-4"
