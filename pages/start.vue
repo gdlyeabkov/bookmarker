@@ -10,7 +10,7 @@
       <v-card-title>
         <v-row>
           <v-spacer v-if="item % 2 === 0" />
-          <p class="white--text">Diigo</p>
+          <p class="white--text">Bookmarker</p>
         </v-row>
       </v-card-title>
       <v-card-text>
@@ -26,7 +26,7 @@
     </v-card>
     <v-footer height="400" color="rgb(50, 200, 250)">
       <v-col>
-        <span class="grey--text my-2">&copy; {{ new Date().getFullYear() }} Diigo Inc.</span>
+        <span class="grey--text my-2">&copy; {{ new Date().getFullYear() }} Bookmarker Inc.</span>
         <v-row class="my-4">
           <p class="mx-3">About</p>
           <p class="mx-3">Pricing & Plans</p>

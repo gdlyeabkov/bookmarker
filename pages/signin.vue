@@ -3,7 +3,7 @@
     <v-row class="my-5">
       <v-col>
         <img
-          src="https://www.diigo.com/images/v6/diigologolarge.png"
+          src="@/assets/img/bookmarker_logo.png"
           width="250" />
       </v-col>
       <v-divider
@@ -11,7 +11,7 @@
         vertical />
       <v-col>
         <v-form ref="form">
-          <p>Войти в diigo</p>
+          <p>Войти в bookmarker</p>
           <v-text-field
             :rules="emailRules"
             v-model="email"
@@ -32,19 +32,21 @@
               <p>Забыли пароль?</p>
             </v-col>
           </v-row>
-          <p>Войдите через другие аккаунты</p>
-          <v-btn
-            class="my-2"
-            width="100%"
-            @click="signIn('google')">Google</v-btn>
-          <v-btn
-            class="my-2"
-            width="100%"
-            @click="signIn('facebook')">Facebook</v-btn>
+          <div v-if="IS_COMMING_SOON">
+            <p>Войдите через другие аккаунты</p>
+            <v-btn
+              class="my-2"
+              width="100%"
+              @click="signIn('google')">Google</v-btn>
+            <v-btn
+              class="my-2"
+              width="100%"
+              @click="signIn('facebook')">Facebook</v-btn>
+          </div>
         </v-form>
       </v-col>
     </v-row>
-    <p class="text-center">У вас еще нет Diggo аккаунта? <nuxt-link to="signup" class="clickable blue--text">Создайте Diigo аккаунт сейчас</nuxt-link></p>
+    <p class="text-center">У вас еще нет Diggo аккаунта? <nuxt-link to="signup" class="clickable blue--text">Создайте Bookmarker аккаунт сейчас</nuxt-link></p>
   </v-container>
 </template>
 <script>
@@ -61,11 +63,13 @@ export default {
     const passwordRules = ref([
       v => /^.........*$/.test(v) || 'Пароль введен не корректно'
     ])
+    const IS_COMMING_SOON = ref(false)
     return {
       email,
       pass,
       emailRules,
-      passwordRules
+      passwordRules,
+      IS_COMMING_SOON
     }
   },
   methods: {

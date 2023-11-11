@@ -6,7 +6,7 @@
     color="cyan">
     <v-app-bar-title>
       <img
-        src="https://www.diigo.com/asset/images/logo_s2@2x.png"
+        src="@/assets/img/bookmarker_logo.png"
         width="75" />
     </v-app-bar-title>
     <v-btn class="text-capitalize mx-2" color="transparent" elevation="0" @click="switchScreen('library')">Моя библиотека</v-btn>
@@ -29,19 +29,19 @@
         </v-btn>
       </template>
       <v-list>
-        <v-list-item class="clickable" @click="switchScreen('profile')">
+        <v-list-item class="clickable" @click="switchScreen('public')">
           <v-list-item-title>Публичная библиотека</v-list-item-title>
         </v-list-item>
-        <v-list-item class="clickable" @click="switchScreen('settings')">
+        <v-list-item v-if="IS_COMMING_SOON" class="clickable" @click="switchScreen('settings')">
           <v-list-item-title>Настройки</v-list-item-title>
         </v-list-item>
-        <v-list-item class="clickable" @click="switchScreen('support')">
+        <v-list-item v-if="IS_COMMING_SOON" class="clickable" @click="switchScreen('support')">
           <v-list-item-title>Поддержка</v-list-item-title>
         </v-list-item>
-        <v-list-item class="clickable" @click="switchScreen('discover')">
+        <v-list-item v-if="IS_COMMING_SOON" class="clickable" @click="switchScreen('discover')">
           <v-list-item-title>Обнаружить</v-list-item-title>
         </v-list-item>
-        <v-list-item class="clickable" @click="switchScreen('help')">
+        <v-list-item v-if="IS_COMMING_SOON" class="clickable" @click="switchScreen('help')">
           <v-list-item-title>Помощь</v-list-item-title>
         </v-list-item>
         <v-list-item class="clickable" @click="logout()">
@@ -53,7 +53,15 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
+  setup () {
+    const IS_COMMING_SOON = ref(false)
+    return {
+      IS_COMMING_SOON
+    }
+  },
   computed: {
     user () {
       return this.$store.state.user

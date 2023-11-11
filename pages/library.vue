@@ -360,7 +360,7 @@
                     <v-menu>
                       <template v-slot:activator="{ on, attrs }">
                         <v-btn
-                          icon
+                          text
                           v-bind="attrs"
                           v-on="on">{{visibility}}<v-icon size="20">mdi-chevron-down</v-icon></v-btn>
                       </template>
@@ -381,7 +381,7 @@
                     <v-menu>
                       <template v-slot:activator="{ on, attrs }">
                         <v-btn
-                          icon
+                          text
                           v-bind="attrs"
                           v-on="on">{{date}}<v-icon size="20">mdi-chevron-down</v-icon></v-btn>
                       </template>
@@ -736,8 +736,6 @@ export default {
   layout: 'personal',
   async asyncData ({ $axios, $store }) {
     try {
-      // $axios.setHeader('Authorization', '#')
-      // const response = await $axios.$get('http://localhost:8000/api/bookmarks')
       console.log(`$store.state.token: ${$store.state.token}`)
       const response = await $axios.$get('http://localhost:8000/api/bookmarks', {
         headers: {
@@ -892,28 +890,14 @@ export default {
       }
     }
   },
-  async mounted () {
-    // const id = sessionStorage.getItem('user')
-    try {
-      // const response = await this.$axios.$get(`http://localhost:8000/api/user/token/?id=${id}`)
-      // alert(this.token)
-      const response = await this.$axios.$get('http://localhost:8000/api/user/token', {
-        headers: {
-          Authorization: this.token
-        }
-      })
-      const user = response.user
-      if (user) {
-        await this.setUser(user)
-        this.getArticles()
-      } else {
-        this.$router.push({ path: '/start' })
-      }
-    } catch (e) {}
+  mounted () {
+    // TODO: distribute for other pages
+    this.authGuard()
   },
   methods: {
     ...mapActions([
-      'setUser'
+      'setUser',
+      'setToken'
     ]),
     removeEmail (index) {
       this.emailVals = this.emailVals.filter((val, i) => index !== i)
@@ -1141,7 +1125,7 @@ export default {
           isPrivate = '1'
         }
         data.append('private', isPrivate)
-        data.append('user', this.user.id)
+        // data.append('user', this.user.id)
         let isUnreaded = '0'
         if (this.readLater) {
           isUnreaded = '1'
@@ -1149,6 +1133,7 @@ export default {
         data.append('unreaded', isUnreaded)
         await this.$axios.$post('http://localhost:8000/api/bookmark/', data, {
           headers: {
+            Authorization: this.token,
             'Content-Type': 'multipart/form-data'
           }
         })
@@ -1202,6 +1187,7 @@ export default {
       try {
         await this.$axios.$delete(`http://localhost:8000/api/bookmark/?id=${articleId}`, data, {
           headers: {
+            Authorization: this.token,
             // 'Content-Type': 'application/x-www-form-urlencoded'
             'Content-Type': 'application/json'
           }
@@ -1240,10 +1226,10 @@ export default {
          */
       }
     },
-    addInOutliner (article) {
+    addInOutliner () {
       this.addToOutlinerDialog = true
     },
-    shareGroup (article) {
+    shareGroup () {
       this.shareToGroupDialog = true
     },
     closeSheet () {
@@ -1293,14 +1279,13 @@ export default {
         isPrivate = '1'
       }
       data.append('private', isPrivate)
-      data.append('user', '-1')
       try {
         await this.$axios.$put(
-          // `http://localhost:8000/api/bookmark/?id=${this.articles[this.selectedArticleindex].id}&url=${this.url}&title=${this.title}&desc=${this.desc}&body=${this.body}&private=${isPrivate}`
           'http://localhost:8000/api/bookmark/',
           data,
           {
             headers: {
+              Authorization: this.token,
               'Content-Type': 'application/x-www-form-urlencoded'
             }
           })
@@ -1331,6 +1316,35 @@ export default {
     },
     closeSendEmailAlert () {
       this.sendEmailDialog = false
+    },
+    async authGuard () {
+      try {
+        if (!this.token) {
+          const token = localStorage.getItem('token')
+          if (token) {
+            await this.setToken(token)
+          } else {
+            this.$router.push({ path: '/start' })
+          }
+        }
+        const response = await this.$axios.$get('http://localhost:8000/api/user/token', {
+          headers: {
+            Authorization: this.token
+          }
+        })
+        const user = response.user
+        if (user) {
+          await this.setUser(user)
+          this.getArticles()
+        } else {
+          this.$router.push({ path: '/start' })
+        }
+      } catch (e) {
+        /*
+         * TODO
+         * show error
+         */
+      }
     }
   }
 }

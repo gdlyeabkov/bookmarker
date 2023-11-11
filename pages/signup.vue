@@ -3,7 +3,7 @@
     <v-row class="my-5">
       <v-col>
         <img
-          src="https://www.diigo.com/images/v6/diigologolarge.png"
+          src="@/assets/img/bookmarker_logo.png"
           width="250" />
       </v-col>
       <v-divider
@@ -11,7 +11,7 @@
         vertical />
       <v-col>
         <v-form ref="form">
-          <p>Зарегистрироваться в diigo</p>
+          <p>Зарегистрироваться в bookmarker</p>
           <v-text-field
             :rules="emailRules"
             v-model="email"

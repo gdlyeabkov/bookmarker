@@ -4,7 +4,7 @@
     border
     elevation>
     <v-row justify="center" no-gutters>
-      <span class="grey--text my-2">&copy; {{ new Date().getFullYear() }} Diigo Inc.</span>
+      <span class="grey--text my-2">&copy; {{ new Date().getFullYear() }} Bookmarker Inc.</span>
       <v-btn
         color="transparent"
         elevation="0"

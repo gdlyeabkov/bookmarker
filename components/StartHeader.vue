@@ -4,7 +4,7 @@
     color="#fff">
     <v-app-bar-title>
       <img
-        src="https://www.diigo.com/images/v6/diigologolarge.png"
+        src="@/assets/img/bookmarker_logo.png"
         width="75" />
     </v-app-bar-title>
     <v-spacer />
