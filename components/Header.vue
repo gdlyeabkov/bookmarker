@@ -32,7 +32,7 @@
         <v-list-item class="clickable" @click="switchScreen('public')">
           <v-list-item-title>Публичная библиотека</v-list-item-title>
         </v-list-item>
-        <v-list-item v-if="IS_COMMING_SOON" class="clickable" @click="switchScreen('settings')">
+        <v-list-item class="clickable" @click="switchScreen('settings')">
           <v-list-item-title>Настройки</v-list-item-title>
         </v-list-item>
         <v-list-item v-if="IS_COMMING_SOON" class="clickable" @click="switchScreen('support')">
