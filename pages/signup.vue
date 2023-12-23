@@ -38,6 +38,8 @@
           <v-select
             v-model="gender"
             :items="genderVariants"
+            item-text="display"
+            item-value="value"
             placeholder="Пол" />
           <v-row>
             <v-col>
@@ -72,8 +74,14 @@ export default {
     const age = ref('')
     const gender = ref('')
     const genderVariants = ref([
-      'Мужской',
-      'Женский'
+      {
+        display: 'Мужской',
+        value: 'male'
+      },
+      {
+        display: 'Женский',
+        value: 'female'
+      }
     ])
     return {
       email,
@@ -91,7 +99,7 @@ export default {
     async signUp () {
       const data = new FormData()
       data.append('email', this.email)
-      data.append('pass', this.password)
+      data.append('pass', this.pass)
       data.append('name', this.name)
       data.append('age', this.age)
       data.append('gender', this.gender)
@@ -103,13 +111,12 @@ export default {
         })
         const user = response.user
         if (user) {
-          this.SET_USER(user)
-          this.$router.push({ name: 'library', query: { id: user.id } })
+          this.$router.push({ name: 'signin' })
         } else {
-          alert('error')
+          alert('Произошла ошибка')
         }
       } catch (e) {
-        alert('error')
+        alert('Произошла ошибка')
       }
     }
   }

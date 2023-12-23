@@ -14,9 +14,9 @@
     <v-btn v-if="false" class="text-capitalize mx-2" color="transparent" elevation="0" @click="switchScreen('groups')">Мои группы</v-btn>
     <v-btn v-if="false" class="text-capitalize mx-2" color="transparent" elevation="0" @click="switchScreen('tools')">Инструменты</v-btn>
     <v-spacer />
-    <v-btn class="text-capitalize mx-4" color="orange" :rounded="true">Улучшить</v-btn>
+    <v-btn class="text-capitalize mx-4 white--text" elevation="0" color="orange" :rounded="true" @click="switchScreen('plans')">Улучшить</v-btn>
     <v-avatar color="info" size="24">
-      <v-img src="https://resources.diigo.com/images/avatar/user/nickfish2020_96.jpg?rand=863" />
+      <v-img :src="avatar" @error="handleAcceptAvatarError" />
     </v-avatar>
     <v-btn class="text-capitalize header__profile-btn" color="transparent" elevation="0" :style="'text-transform: unset !important;'">{{getEmail}}</v-btn>
     <v-menu>
@@ -54,12 +54,15 @@
 
 <script>
 import { ref } from 'vue'
+import { mapActions } from 'vuex'
 
 export default {
   setup () {
     const IS_COMMING_SOON = ref(false)
+    const avatar = ref(null)
     return {
-      IS_COMMING_SOON
+      IS_COMMING_SOON,
+      avatar
     }
   },
   computed: {
@@ -73,7 +76,52 @@ export default {
       return ''
     }
   },
+  async mounted () {
+    // TODO: distribute for other pages
+    await this.authGuard()
+    if (this.user) {
+      this.name = this.user.name
+      this.email = this.user.email
+      this.password = this.user.mask_pass
+      this.avatar = `http://localhost:8000/user/avatar/?id=${this.user.id}`
+    }
+  },
   methods: {
+    ...mapActions([
+      'setUser',
+      'setToken'
+    ]),
+    handleAcceptAvatarError () {
+      this.avatar = 'https://resources.diigo.com/images/avatar/user/nickfish2020_96.jpg?rand=863'
+    },
+    async authGuard () {
+      try {
+        if (!this.token) {
+          const token = localStorage.getItem('token')
+          if (token) {
+            await this.setToken(token)
+            const response = await this.$axios.$get('http://localhost:8000/api/user/token', {
+              headers: {
+                Authorization: token
+              }
+            })
+            const user = response.user
+            if (user) {
+              await this.setUser(user)
+            } else {
+              this.$router.push({ path: '/start' })
+            }
+          } else {
+            this.$router.push({ path: '/start' })
+          }
+        }
+      } catch (e) {
+        /*
+         * TODO
+         * show error
+         */
+      }
+    },
     switchScreen (screen) {
       this.$router.push(screen)
     },

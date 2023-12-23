@@ -1,6 +1,6 @@
 <template>
-  <v-container>
-    <v-row class="my-5">
+  <v-container class="sign-in-container">
+    <v-row class="my-5 sign-in-container-row">
       <v-col>
         <img
           src="@/assets/img/bookmarker_logo.png"
@@ -29,7 +29,7 @@
                 @click="signIn()">Войти</v-btn>
             </v-col>
             <v-col>
-              <p>Забыли пароль?</p>
+              <nuxt-link to="/start">Забыли пароль?</nuxt-link>
             </v-col>
           </v-row>
           <div v-if="IS_COMMING_SOON">
@@ -46,7 +46,7 @@
         </v-form>
       </v-col>
     </v-row>
-    <p class="text-center">У вас еще нет Diggo аккаунта? <nuxt-link to="signup" class="clickable blue--text">Создайте Bookmarker аккаунт сейчас</nuxt-link></p>
+    <p class="text-center">У вас еще нет Bookmarker аккаунта? <nuxt-link to="signup" class="clickable blue--text">Создайте Bookmarker аккаунт сейчас</nuxt-link></p>
   </v-container>
 </template>
 <script>
@@ -101,16 +101,14 @@ export default {
               if (user.id > -1) {
                 await this.setUser(user)
                 await this.setToken(token)
-                // sessionStorage.setItem('user', user.id)
                 localStorage.setItem('token', response.token)
-                // this.$router.push({ name: 'library', query: { id: user.id } })
                 this.$router.push({ name: 'library' })
               }
             } else {
-              alert('User with provided credentials is not found.')
+              alert('Пользователь с предоставленными учетными данными не найден.')
             }
           } catch (e) {
-            alert('error')
+            alert('Произошла ошибка')
           }
         }
       }
@@ -118,5 +116,16 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
+.sign-in-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.sign-in-container-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>

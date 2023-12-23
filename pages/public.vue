@@ -8,10 +8,9 @@
       <v-toolbar-title>
         <v-row align="center">
           <v-col>
-            <img
-              src="@/assets/img/default_user_photo.gif"
-              width="75"
-              style="margin-top: 25px;" />
+            <v-avatar class="mt-5" color="info" size="75">
+              <v-img :src="avatar" @error="handleAcceptAvatarError" />
+            </v-avatar>
           </v-col>
           <v-col v-if="user">
             <p>{{user.name}}</p>
@@ -169,67 +168,67 @@
           <p>Статей нет!</p>
           <p>Вы можее добавить ее сами.</p>
         </div>
+        <v-row class="mx-0">
+          <v-col cols="3">
+            <v-row class="my-4">
+              <p class="mx-2 my-1">{{articles.length}} элемента,</p>
+              <v-menu>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    class="mx-2"
+                    icon
+                    v-bind="attrs"
+                    v-on="on">{{itemsPerPage}}</v-btn>
+                </template>
+                <v-list>
+                  <v-list-item class="clickable" @click="setItemPerPage(24)">
+                    <v-list-item-title>24</v-list-item-title>
+                  </v-list-item>
+                  <v-list-item class="clickable" @click="setItemPerPage(48)">
+                    <v-list-item-title>48</v-list-item-title>
+                  </v-list-item>
+                  <v-list-item class="clickable" @click="setItemPerPage(96)">
+                    <v-list-item-title>96</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+              <p class="mx-2 my-1">эл/стр</p>
+            </v-row>
+          </v-col>
+          <v-col cols="6">
+            <v-pagination
+            v-model="page"
+            :length="getPageCount()"
+            rounded />
+          </v-col>
+          <v-col cols="3">
+            <v-row class="my-4">
+              <v-col cols="4">
+                <v-menu>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      text
+                      v-bind="attrs"
+                      v-on="on">{{date}}<v-icon size="20">mdi-chevron-down</v-icon></v-btn>
+                  </template>
+                  <v-list>
+                    <v-list-item class="clickable" @click="setDate('Дата создания')">
+                      <v-list-item-title>Дата создания</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item class="clickable" @click="setDate('Дата обновления')">
+                      <v-list-item-title>Дата обновления</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+              </v-col>
+              <v-col cols="2">
+                <v-icon class="ml-2 my-1" color="orange">mdi-rss-box</v-icon>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
       </div>
     </v-col>
-    <v-row>
-      <v-col cols="3">
-        <v-row class="my-4">
-          <p class="mx-2 my-1">{{articles.length}} элемента,</p>
-          <v-menu>
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                class="mx-2"
-                icon
-                v-bind="attrs"
-                v-on="on">{{itemsPerPage}}</v-btn>
-            </template>
-            <v-list>
-              <v-list-item class="clickable" @click="setItemPerPage(24)">
-                <v-list-item-title>24</v-list-item-title>
-              </v-list-item>
-              <v-list-item class="clickable" @click="setItemPerPage(48)">
-                <v-list-item-title>48</v-list-item-title>
-              </v-list-item>
-              <v-list-item class="clickable" @click="setItemPerPage(96)">
-                <v-list-item-title>96</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-          <p class="mx-2 my-1">эл/стр</p>
-        </v-row>
-      </v-col>
-      <v-col cols="6">
-        <v-pagination
-        v-model="page"
-        :length="getPageCount()"
-        rounded />
-      </v-col>
-      <v-col cols="3">
-        <v-row class="my-4">
-          <v-col cols="4">
-            <v-menu>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  text
-                  v-bind="attrs"
-                  v-on="on">{{date}}<v-icon size="20">mdi-chevron-down</v-icon></v-btn>
-              </template>
-              <v-list>
-                <v-list-item class="clickable" @click="setDate('Дата создания')">
-                  <v-list-item-title>Дата создания</v-list-item-title>
-                </v-list-item>
-                <v-list-item class="clickable" @click="setDate('Дата обновления')">
-                  <v-list-item-title>Дата обновления</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </v-col>
-          <v-col cols="2">
-            <v-icon class="ml-2 my-1" color="orange">mdi-rss-box</v-icon>
-          </v-col>
-        </v-row>
-      </v-col>
-    </v-row>
     <v-dialog
       v-model="dialog"
       width="50%">
@@ -639,6 +638,7 @@ export default {
     const subject = ref('')
     const to = ref('')
     const markup = ref('')
+    const avatar = ref(null)
     return {
       articles,
       itemsPerPage,
@@ -674,7 +674,8 @@ export default {
       bookmarkAlertNextBtnText,
       subject,
       to,
-      markup
+      markup,
+      avatar
     }
   },
   computed: {
@@ -689,6 +690,7 @@ export default {
     // TODO: distribute for other pages
     this.authGuard()
     this.storeGuard()
+    this.avatar = `http://localhost:8000/user/avatar/?id=${this.user.id}`
   },
   methods: {
     ...mapActions([
@@ -1029,6 +1031,9 @@ export default {
     sendEmail (article) {
       this.markup = article.title
       this.sendEmailDialog = true
+    },
+    handleAcceptAvatarError () {
+      this.avatar = '@/assets/img/default_user_photo.gif'
     }
   }
 }

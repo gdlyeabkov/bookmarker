@@ -2,7 +2,7 @@
   <v-app>
     <StartHeader />
     <v-main>
-      <v-container fluid class="full-w non-pad">
+      <v-container fluid class="full-w non-pad start-container">
         <Nuxt />
       </v-container>
     </v-main>

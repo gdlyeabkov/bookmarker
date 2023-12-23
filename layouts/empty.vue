@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <v-container fluid class="full-w non-pad">
+      <v-container fluid class="full-w non-pad start-container">
         <Nuxt />
       </v-container>
     </v-main>
@@ -23,5 +23,14 @@ export default {
 
   .clickable {
     cursor: pointer;
+  }
+
+  .start-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
   }
 </style>

@@ -880,6 +880,27 @@ export default {
     }
   },
   watch: {
+    async token (val) {
+      try {
+        if (this.token) {
+          const response = await this.$axios.$get('http://localhost:8000/api/user/token', {
+            headers: {
+              Authorization: this.token
+            }
+          })
+          const user = response.user
+          if (user) {
+            await this.setUser(user)
+            this.getArticles()
+          }
+        }
+      } catch (e) {
+        /*
+         * TODO
+         * show error
+         */
+      }
+    },
     sendEmailDialog (val) {
       if (!val) {
         this.to = ''
@@ -889,10 +910,6 @@ export default {
         this.emails = []
       }
     }
-  },
-  mounted () {
-    // TODO: distribute for other pages
-    this.authGuard()
   },
   methods: {
     ...mapActions([
@@ -1316,35 +1333,6 @@ export default {
     },
     closeSendEmailAlert () {
       this.sendEmailDialog = false
-    },
-    async authGuard () {
-      try {
-        if (!this.token) {
-          const token = localStorage.getItem('token')
-          if (token) {
-            await this.setToken(token)
-          } else {
-            this.$router.push({ path: '/start' })
-          }
-        }
-        const response = await this.$axios.$get('http://localhost:8000/api/user/token', {
-          headers: {
-            Authorization: this.token
-          }
-        })
-        const user = response.user
-        if (user) {
-          await this.setUser(user)
-          this.getArticles()
-        } else {
-          this.$router.push({ path: '/start' })
-        }
-      } catch (e) {
-        /*
-         * TODO
-         * show error
-         */
-      }
     }
   }
 }
