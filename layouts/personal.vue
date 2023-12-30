@@ -10,75 +10,56 @@
       :bottom="true"
       :right="true">
       <template v-slot:activator>
-        <v-menu>
+        <v-menu
+          v-model="menu"
+          :close-on-content-click="false"
+          :offset="125"
+          offset-y
+          contained
+          :z-index="'0'">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
+              v-if="true"
               v-bind="attrs"
               v-on="on"
               color="gray darken-2"
               dark
               fab
               absolute
-              right>
+              right
+              position="relative"
+              target="cursor">
               <v-icon>mdi-chat</v-icon>
             </v-btn>
+            <v-btn
+              v-else
+              v-bind="attrs"
+              v-on="on"
+              color="red darken-2"
+              dark
+              fab
+              absolute
+              right>
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
           </template>
-          <v-card min-width="300">
-            <v-list>
-              <v-list-item
-                prepend-avatar="https://cdn.vuetifyjs.com/images/john.jpg"
-                title="John Leider"
-                subtitle="Founder of Vuetify"
-              >
-                <template v-slot:append>
-                  <v-btn
-                    variant="text"
-                    :class="fav ? 'text-red' : ''"
-                    icon="mdi-heart"
-                    @click="fav = !fav"
-                  ></v-btn>
-                </template>
-              </v-list-item>
-            </v-list>
-
-            <v-divider></v-divider>
-
-            <v-list>
-              <v-list-item>
-                <v-switch
-                  v-model="message"
-                  color="purple"
-                  label="Enable messages"
-                  hide-details
-                ></v-switch>
-              </v-list-item>
-
-              <v-list-item>
-                <v-switch
-                  v-model="hints"
-                  color="purple"
-                  label="Enable hints"
-                  hide-details
-                ></v-switch>
-              </v-list-item>
-            </v-list>
-
+          <v-card class="pa-5">
+            <p class="text-subtitle-2">Отправьте нам сообщние</p>
+            <p class="text-subtitle-1">Перейдите на премиум для получение быстрой поддержки</p>
+            <v-text-field v-model="title" placeholder="Тема"  />
+            <v-textarea v-model="msg" placeholder="Получить обратную связь или спросить помощь." />
             <v-card-actions>
-              <v-spacer></v-spacer>
-
+              <v-spacer />
               <v-btn
+                color="black"
+                class="white--text"
                 variant="text"
-                @click="menu = false"
+                :disabled="!title.length || !msg.length"
+                @click="send"
               >
-                Cancel
+                Отправить
               </v-btn>
-              <v-btn
-                color="primary"
-                variant="text"
-                @click="menu = false"
-              >
-                Save
-              </v-btn>
+              <v-spacer />
             </v-card-actions>
           </v-card>
         </v-menu>
@@ -89,12 +70,46 @@
 </template>
 
 <script>
+import { ref } from 'vue'
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
+
 export default {
+  setup () {
+    const menu = ref(false)
+    const title = ref('')
+    const msg = ref('')
+    return {
+      menu,
+      title,
+      msg
+    }
+  },
+  computed: {
+    user () {
+      return this.$store.state.user
+    },
+    token () {
+      return this.$store.state.token
+    }
+  },
   components: {
     Header,
     Footer
+  },
+  methods: {
+    async send () {
+      const data = new FormData()
+      data.append('content', this.msg)
+      data.append('subject', this.title)
+      await this.$axios.$post('http://localhost:8000/api/feedback/', data, {
+        headers: {
+          Authorization: this.token,
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      this.menu = false
+    }
   }
 }
 </script>
