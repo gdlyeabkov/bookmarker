@@ -1,13 +1,13 @@
 <template>
   <v-container>
-    <v-row class="my-5">
-      <v-col>
+    <v-row class="my-5 flex-column flex-md-row">
+      <v-col class="d-flex d-md-block justify-center">
         <img
           src="@/assets/img/bookmarker_logo.png"
           width="250" />
       </v-col>
       <v-divider
-        class="mx-5"
+        class="mx-5 d-none d-md-block"
         vertical />
       <v-col>
         <v-form ref="form">

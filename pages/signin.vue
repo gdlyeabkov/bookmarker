@@ -1,13 +1,13 @@
 <template>
   <v-container class="sign-in-container">
-    <v-row class="my-5 sign-in-container-row">
-      <v-col>
+    <v-row class="my-5 sign-in-container-row flex-column flex-md-row">
+      <v-col class="d-flex justify-center flex-grow-0 flex-md-grow-1">
         <img
           src="@/assets/img/bookmarker_logo.png"
           width="250" />
       </v-col>
       <v-divider
-        class="mx-5"
+        class="mx-5 d-none d-md-block"
         vertical />
       <v-col>
         <v-form ref="form">

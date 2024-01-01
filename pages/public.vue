@@ -4,7 +4,8 @@
       height="75"
       style="width: 100%;"
       fixed
-      color="cyan">
+      color="cyan"
+      class="overflow-hidden">
       <v-toolbar-title>
         <v-row align="center">
           <v-col>
